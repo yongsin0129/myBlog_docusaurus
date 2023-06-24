@@ -4,32 +4,60 @@ import styles from './styles.module.css';
 
 const FeatureList = [
   {
-    title: 'Easy to Use',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    title: '前端技能樹',
+    Svg: require('@site/static/img/homepage/frontend_illustrator.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        HTML / CSS / JS
+        <br />
+        TypeScript
+        <br />
+        React
+        <br />
+        Material-UI
+        <br />
+        React Query
+        <br />
+        Apollo Client
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    title: '後端技能樹',
+    Svg: require('@site/static/img/homepage/backend_illustrator.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Node.js
+        <br />
+        Express
+        <br />
+        Socket.IO
+        <br />
+        GraphQL
+        <br />
+        SQL / MongoDB
+        <br />
+        ORM( Prisma,Sequelize,Mongoose )
+        <br />
+        Crawler( puppeteer,cheerio.io )
+        <br />
+        Swagger
       </>
     ),
   },
   {
-    title: 'Powered by React',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    title: '其他',
+    Svg: require('@site/static/img/homepage/other_illustrator.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Git / Git Flow
+        <br />
+        GitHub Actions
+        <br />
+        Docker
+        <br />
+        Continuous Deployment
+        <br />
       </>
     ),
   },

@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: '永c的日常學習筆記',
-  tagline: '記錄各類學習的過程及心得',
+  tagline: '記錄個人學習的成長過程及心得',
   favicon: 'img/favicon.ico',
 
   // Set the production url of your site here
@@ -78,7 +78,7 @@ const config = {
           //   position: 'left',
           // },
           { to: '/docs/intro', label: 'Docs', position: 'left' },
-          {to: '/blog', label: 'Blog', position: 'left'},
+          { to: '/blog', label: 'Portfolio', position: 'left'},
           {
             href: 'https://github.com/yongsin0129?tab=repositories',
             label: 'GitHub',
