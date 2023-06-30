@@ -12,7 +12,7 @@ const config = {
   tagline: '記錄個人學習的成長過程及心得',
   favicon: 'img/favicon.ico', // 更改網站 tag icon
 
-  // Set the production url of your site here
+  // 部屬完之前需要來這邊設定 host url
   url: 'https://incomparable-crostata-192195.netlify.app/',
 
   // Set the /<baseUrl>/ pathname under which your site is served
@@ -24,16 +24,20 @@ const config = {
   organizationName: 'yongsin0129', // Usually your GitHub org/user name.
   projectName: 'YongSin`s note', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  // 這邊是打包時如果檢查到 link 不存在時，需要提醒還是直接報錯
+  onBrokenLinks: 'throw', 
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
-  // to replace "en" with "zh-Hans".
+  // to replace "en" with "zh-Hans or zh-Hant".
   i18n: {
     defaultLocale: 'zh-Hant',
     locales: ['zh-Hant'],
   },
+
+
+
 
   presets: [
     [
@@ -60,6 +64,8 @@ const config = {
       }),
     ],
   ],
+
+
 
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
@@ -133,15 +139,29 @@ const config = {
         ],
         copyright: `Copyright © ${new Date().getFullYear()} 永c隨筆, Inc. Built with Docusaurus.`,
       },
+
+      // 這邊可以新增 magic comment 
+      // 參考官網 : https://docusaurus.io/docs/markdown-features/code-blocks#custom-magic-comments
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
       },
+
+      // 這邊可以自訂網頁預設為黑色or白色，也可以鎖定切換功能
       colorMode: {
         defaultMode: 'dark',
         disableSwitch: false,
         respectPrefersColorScheme: false,
       },
+
+      // 網站最上方的公佈欄
+      announcementBar:{
+        id: 'announcement id',
+        content:'announcement content',
+        textColor:'red',
+        backgroundColor:'pink',
+        isCloseable: true
+      }
     }),
 };
 

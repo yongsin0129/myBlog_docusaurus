@@ -140,6 +140,17 @@ const config = {
         disableSwitch: false,
         respectPrefersColorScheme: false,
       },
+
+      announcementBar:{
+        id: 'announcement id',
+        content:'歡迎來到永c隨筆，此筆記緩慢增加中...',
+        textColor:'red',
+        backgroundColor:'pink',
+        isCloseable: true
+      },
+
+      
+
     }),
 };
 
