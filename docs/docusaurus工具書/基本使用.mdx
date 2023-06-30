@@ -1,0 +1,107 @@
+---
+sidebar_position: 4
+---
+import TextCenter from "@site/src/components/helper/TextCenter"
+
+## 官方文檔
+
+安裝方法可參考官方文件: [title](https://docusaurus.io/docs/category/guides)
+
+---
+## 認識資料夾結構
+```
+my-website
+├── blog
+│   ├── 2019-05-28-hola.md
+│   ├── 2019-05-29-hello-world.md
+│   └── 2020-05-30-welcome.md
+├── docs
+│   ├── doc1.md
+│   ├── doc2.md
+│   ├── doc3.md
+│   └── mdx.md
+├── src
+│   ├── css
+│   │   └── custom.css
+│   └── pages
+│       ├── styles.module.css
+│       └── index.js
+├── static
+│   └── img
+├── docusaurus.config.js
+├── package.json
+├── README.md
+├── sidebars.js
+└── yarn.lock
+```
+/blog/-包含 blog 的 md or mdx 文件。
+
+/docs/-包含文档的 的 md or mdx 文件
+
+/src/-非文档文件，如页面或自定义 React 组件。
+
+/src/pages-此目录中的任何 JSX/TSX/MDX 文件都将转换为网站页面。
+
+/Static/-Static 目录。这里的任何内容都将被复制到最终构建目录的根目录中
+
+/Docusaurus.config.js-一个包含站点配置的配置文件，
+
+/sidebars.js-文档使用它来指定侧边栏中文档的顺序
+
+---
+
+## 在 /docs 下寫 md or mdx
+
+### SEO 及 文件設定
+
+在 md 開頭加上以下文字
+```
+---
+title: Title for search engines; can be different from the actual heading
+description: A short description of this page
+image: a thumbnail image to be shown in social media cards
+sidebar_position: 1
+keywords: [keywords, describing, the main topics]
+---
+```
+
+如果放的是資料夾，會自動分層，資料夾中新增 _category_.json 文件可做設定
+```
+{
+  "label": "docusaurus 工具書", // 側邊欄顯示的名稱
+  "position": 2 // 側邊欄排序的位置
+}
+```
+
+---
+### code block
+
+參數說明 
+title : block title
+
+showLineNumbers : show line numbers
+
+{7-8} : 標記重記行數
+
+```
+```jsx title="src/pages/my-react-page.js showLineNumbers {7-8}"
+code here (複製後，後面三個反點需向下一行放)```
+```
+
+例子:
+
+if we want to note a file at `src/pages/my-react-page.js`:
+```jsx title="src/pages/my-react-page.js showLineNumbers {7-8}"
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function MyReactPage() {
+  return (
+    <Layout>
+      <h1>My React page</h1>
+      <p>This is a React page</p>
+    </Layout>
+  );
+}
+```
+---

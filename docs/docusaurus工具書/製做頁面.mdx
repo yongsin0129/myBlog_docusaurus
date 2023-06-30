@@ -1,0 +1,126 @@
+---
+sidebar_position: 5
+---
+import {TextCenter} from "@site/src/components/helper/TextCenter"
+import {TextColor} from "@site/src/components/helper/TextCenter"
+
+## Create a Page (可以用 js 寫，也可用 md 寫)
+
+Add **Markdown or React** files to `src/pages` to create a **standalone page**:
+
+- `src/pages/index.js` → `localhost:3000/`
+- `src/pages/foo.md` → `localhost:3000/foo`
+- `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
+
+js file example:
+
+`src/pages/test.js` → `localhost:3000/test`
+
+:::info
+
+需要引入 header and footer 時，import Layout
+並用 Layout component 包住網頁內容
+
+:::
+
+```jsx title="src/pages/test.js
+import React from 'react';
+import Layout from '@theme/Layout';
+
+export default function MyReactPage() {
+  return (
+    <Layout>
+      <h1>My React page</h1>
+      <p>This is a React page</p>
+    </Layout>
+  );
+}
+```
+---
+
+### 新增路由至新頁面
+
+`/docusaurus.config` → themeConfig > items > { to: '/test', label: 'test', position: 'left'}
+
+---
+
+### markdown 中使用 自制 components
+
+:::note
+
+記得檔案必需是 mdx
+
+:::
+
+<TextCenter> method1 : 在 mdx 中直接寫並export  </TextCenter>
+
+```
+export const Highlight = ({children, color}) => (
+<span
+style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+{children}
+</span>
+);
+
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+
+I can write **Markdown** alongside my _JSX_!
+```
+
+export const Highlight = ({children, color}) => (
+<span
+style={{
+      backgroundColor: color,
+      borderRadius: '2px',
+      color: '#fff',
+      padding: '0.2rem',
+    }}>
+{children}
+</span>
+)
+
+example :
+<Highlight color="#25c2a0">Docusaurus green</Highlight> and <Highlight color="#1877F2">Facebook blue</Highlight> are my favorite colors.
+
+I can write **Markdown** alongside my _JSX_!
+
+<TextCenter> method2 : 寫在 src/components 再 import 進來 </TextCenter>
+
+ex : 
+
+1. 在需要使用 component 的頁面引入 
+>import TextCenter from "@site/src/components/helper/TextCenter"
+
+2. src/components內部檔案的寫法
+```jsx title="src/components/helper/TextCenter.js
+import React from 'react'
+
+/// 參數為 children , 直接將 props.children 解構
+const TextCenter = ({ children }) => {
+  return (
+    <div style={{ textAlign: 'center', margin: '2rem', color: 'burlywood' }}>{children}</div>
+  )
+}
+
+export default TextCenter
+
+>>> 外部使用方式 <TextCenter> 此段為想要置中的文字 </TextCenter>
+
+
+/// 參數為 props , 內部再去取 props 的屬性值
+export const TextColor = (props) => {
+  const textColor = props.color
+  return (
+    <div style={{ textAlign: 'center', margin: '2rem', color: textColor }}>TextColor by color variable</div>
+  )
+}
+
+export default TextColor
+
+>>> 外部使用方式 <TextColor color="blue"></TextColor>
+```
