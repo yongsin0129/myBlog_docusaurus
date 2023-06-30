@@ -26,15 +26,26 @@ These are the elements outlined in John Gruber’s original design document. All
 
 **bold text**
 
+```
+**bold text**
+```
+
 ### Italic
 
 *italicized text*
+```
+_italicized text_
+```
 
 ---
 
 ### Blockquote
 
 > blockquote
+
+```
+> blockquote
+```
 
 ---
 
@@ -45,6 +56,12 @@ These are the elements outlined in John Gruber’s original design document. All
 2. Second item
 3. Third item
 
+```
+1. First item
+2. Second item
+3. Third item
+```
+
 ---
 
 ### Unordered List
@@ -53,6 +70,12 @@ These are the elements outlined in John Gruber’s original design document. All
 - Second item
 - Third item
 
+```
+- First item
+- Second item
+- Third item
+```
+
 ---
 
 
@@ -60,13 +83,24 @@ These are the elements outlined in John Gruber’s original design document. All
 
 `console.log('hello world')`
 
+```
+`console.log('hello world')`
+```
+
 ### Horizontal Rule
 
 ---
+```
+---
+```
 
 ### Link
 
 [Markdown Guide](https://www.markdownguide.org)
+
+```
+[Markdown Guide](https://www.markdownguide.org)
+```
 
 ---
 
@@ -74,6 +108,10 @@ These are the elements outlined in John Gruber’s original design document. All
 ### Image
 
 ![alt text](https://www.markdownguide.org/assets/images/tux.png)
+
+```
+![alt text](https://www.markdownguide.org/assets/images/tux.png)
+```
 
 ---
 
@@ -89,6 +127,13 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 | Header | Title |
 | Paragraph | Text |
 
+```
+| Syntax    | Description |
+| --------- | ----------- |
+| Header    | Title       |
+| Paragraph | Text        |
+```
+
 ---
 
 
@@ -100,6 +145,8 @@ These elements extend the basic syntax by adding additional features. Not all Ma
   "lastName": "Smith",
   "age": 25
 }
+
+使用方式 : 最上面``` 最下面```
 ```
 
 ---
@@ -111,23 +158,50 @@ Here's a sentence with a footnote. [^1]
 
 [^1]: This is the footnote.
 
+```
+Here's a sentence with a footnote. [^1]
+
+[^1]: This is the footnote.
+```
+
 ---
 
 
 ### Heading ID
 
+```
+### Heading ID
+```
+
 ### My Great Heading {#custom-id}
+
+```
+### My Great Heading {#custom-id}
+```
 
 ### Definition List
 
+```
+### Definition List
+```
+
 term
 : definition
+
+```
+term
+: definition
+```
 
 ---
 
 ### Strikethrough
 
 ~~The world is flat.~~
+
+```
+~~The world is flat.~~
+```
 
 ---
 
@@ -138,12 +212,22 @@ term
 - [ ] Update the website
 - [ ] Contact the media
 
+```
+- [x] Write the press release
+- [ ] Update the website
+- [ ] Contact the media
+```
+
 ---
 
 
 ### Emoji
 
 That is so funny! :joy:
+
+```
+That is so funny! :joy:
+```
 
 emojipedia : https://emojipedia.org/
 (See also [Copying and Pasting Emoji](https://www.markdownguide.org/extended-syntax/#copying-and-pasting-emoji))
@@ -155,6 +239,10 @@ emojipedia : https://emojipedia.org/
 
 I need to highlight these ==very important words==.
 
+```
+I need to highlight these ==very important words==.
+```
+
 ---
 
 
@@ -162,9 +250,17 @@ I need to highlight these ==very important words==.
 
 H~2~O
 
+```
+H~2~O
+```
+
 ---
 
 
 ### Superscript
 
 X^2^
+
+```
+X^2^
+```
