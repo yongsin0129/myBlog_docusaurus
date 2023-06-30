@@ -40,9 +40,8 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
+          // 如果想要讓其他人可以發送 pr ，提醒你修改頁面，可以將這個設定打開，並放上自已的 github 
+          // editUrl: 
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
         },
         blog: {
@@ -141,13 +140,13 @@ const config = {
         respectPrefersColorScheme: false,
       },
 
-      announcementBar:{
-        id: 'announcement id',
-        content:'歡迎來到永c隨筆，此筆記緩慢增加中...',
-        textColor:'red',
-        backgroundColor:'pink',
-        isCloseable: true
-      },
+      // announcementBar:{
+      //   id: 'announcement id',
+      //   content:'歡迎來到永c隨筆，此筆記緩慢增加中...',
+      //   textColor:'black',
+      //   backgroundColor:'pink',
+      //   isCloseable: true
+      // },
 
       
 
