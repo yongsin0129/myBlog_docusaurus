@@ -120,6 +120,11 @@ _italicized text_
 
 ---
 
+### Comment in Markdown
+
+```
+<!--- -------------------------- 分隔線 ----------------------------- -->
+```
 
 ## Extended Syntax
 
@@ -156,7 +161,23 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 
 ---
 
+### Toggle
 
+<details>
+  <summary> Title </summary>
+  Content
+</details>
+
+```
+<details>
+  <summary> title </summary>
+
+contents
+
+</details>
+```
+
+---
 ### Footnote
 
 Here's a sentence with a footnote. [^1]
