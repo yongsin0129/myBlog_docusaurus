@@ -8,7 +8,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 const config = {
   title: '永c隨筆',
   tagline: '記錄個人學習的成長過程及心得',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/pageIco/editnote_pencil_edi_6175.ico',
 
   // Set the production url of your site here
   url: 'https://incomparable-crostata-192195.netlify.app/',
@@ -62,12 +62,12 @@ const config = {
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
       // Replace with your project's social card
-      image: 'img/docusaurus-social-card.jpg',
+      // image: 'img/docusaurus-social-card.jpg',
       navbar: {
         title: '永c隨筆',
         logo: {
           alt: '永c隨筆 Logo',
-          src: 'img/logo.svg',
+          src: 'img/pageIco/editnote_pencil_edi_6175.ico',
         },
         items: [
           // {
