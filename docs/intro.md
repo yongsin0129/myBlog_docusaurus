@@ -9,18 +9,7 @@ keywords: [keywords, describing, the main topics]
 
 所有筆記內容均為個人使用非專業知識網站，文字依個人視角及當前知識所撰寫，方便日後查找及複習。
 
-## 個人作品集
-
-待更新
-lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-,lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-,lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-
 ## 自介
 
-待更新
-lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-,lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
-,lorem ipsum dolor sit amet, consectetur adip,lorem ipsum dolor sit amet, consectetur adip
+化工所畢業，做過半導體製程，也有追夢創業，現在半路出家寫程式 ✍️
+

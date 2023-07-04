@@ -1,6 +1,6 @@
 ---
 slug: welcome
-title: Welcome page
+title: 範例-md-blog
 authors: [slorber, yangshun, yongsin]
 tags: [facebook, hello, docusaurus]
 ---

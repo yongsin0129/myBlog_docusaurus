@@ -77,7 +77,8 @@ const config = {
           //   position: 'left',
           // },
           { to: '/docs/intro', label: 'Docs', position: 'left' },
-          { to: '/blog', label: 'Portfolio', position: 'left'},
+          { to: '/blog', label: 'Blog', position: 'left'},
+          { to: '/portfolio', label: 'Portfolio', position: 'left' },
           {
             href: 'https://github.com/yongsin0129?tab=repositories',
             label: 'GitHub',
