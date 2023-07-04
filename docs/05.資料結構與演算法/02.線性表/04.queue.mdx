@@ -1,0 +1,65 @@
+---
+sidebar_label: queue
+sidebar_position: 4
+---
+
+## Queue
+
+繁中「佇列」，簡中「队列」。像排隊，維持資料前後順序。
+
+Array 和 List 皆可實作。
+
+插入、刪除需時 O(1) 。搜尋需時 O(N) 。
+
+佇列有暫留的性質。
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468399/data%20structure%20and%20algorithm/queue/Untitled_yjtkpc.png"  width="75%" height="75%" />
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468485/data%20structure%20and%20algorithm/queue/Untitled_kh7uhp.png"  width="75%" height="75%" />
+
+Queue（佇列）是一種常用的資料結構，類似於生活中的排隊，先進先出（First-In-First-Out，FIFO）的原則。
+
+它的基本操作有 enqueue（入隊）、dequeue（出隊）和 front（獲取佇列頭部元素），可以用於模擬排隊、網絡數據包的傳輸等。
+
+佇列的 enqueue 操作會將元素加入佇列的尾部，成為新的尾部元素；
+
+dequeue 操作會將佇列的頭部元素移除，使其下面的元素成為新的頭部元素；
+
+front 操作則是獲取佇列頭部的元素，但是不出隊。
+
+佇列的實現可以使用數組或鏈表，使用數組實現的佇列稱為數組佇列，使用鏈表實現的佇列稱為鏈式佇列。
+
+在使用佇列時需要注意佇列是否已滿或者是否已空，以避免出現溢出或下溢的情況。
+
+在計算機科學中，佇列的應用非常廣泛，包括作業系統的進程調度、網絡路由器的數據包轉發等。
+
+## Circular Queue
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468552/data%20structure%20and%20algorithm/queue/Untitled_yrttuc.png"  width="75%" height="75%" />
+
+記憶體循環使用，稱作 Circular Queue 。
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468588/data%20structure%20and%20algorithm/queue/Untitled_gy01tn.png"  width="75%" height="75%" />
+
+資料保持排序，可以隨時得到最小（大）值，稱作 Priority Queue 。資料保持排序，可以隨時得到最小值、最大值，稱作 Double Ended Priority Queue 。
+
+## Deque （ Double Ended Queue ）
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468635/data%20structure%20and%20algorithm/queue/Untitled_dnj1nm.png"  width="75%" height="75%" />
+
+兩頭皆能插入與刪除，稱作 Deque ，同時有著 Stack 和 Queue 的功效。
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468661/data%20structure%20and%20algorithm/queue/Untitled_hsyefc.png"  width="75%" height="75%" />
+
+Array 和 Doubly Linked List 皆可實作。
+
+可以直接使用 C++ 標準函式庫的 deque 。
+
+## 阻塞佇列和併發佇列
+
+阻塞佇列和併發佇列是兩種不同的佇列實現方式。
+
+阻塞佇列指的是當佇列已滿或空時，相應的操作（入隊或出隊）會被阻塞，直到佇列有空間或元素可用為止。阻塞佇列通常使用在多線程環境中，以協調多個線程對共享佇列的訪問，從而實現線程間的同步和互斥。阻塞佇列的常見實現包括 Java 中的 LinkedBlockingQueue 和 C++ 中的 std::queue。
+
+併發佇列是指能夠同時處理多個入隊和出隊操作的佇列。併發佇列通常使用在高並發網絡環境中，以實現高效的數據包處理和流量控制。併發佇列的常見實現包括 ZeroMQ 中的 inproc 隊列和 Kafka 中的 topic 隊列。
+
+總的來說，阻塞佇列和併發佇列是根據不同的需求和場景所選擇的不同佇列實現方式。阻塞佇列主要用於多線程環境下實現線程間的同步和互斥，併發佇列主要用於高並發網絡環境下實現高效的數據處理和流量控制。

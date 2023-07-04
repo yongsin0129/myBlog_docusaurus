@@ -1,0 +1,229 @@
+---
+sidebar_label: linked list
+sidebar_position: 2
+---
+
+## 心智圖
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688467613/data%20structure%20and%20algorithm/linked%20list/Untitled_hnhtpi.png"  width="75%" height="75%" />
+
+## 單向鏈表（singly linked list）
+鏈表（Linked List）是一種常見的基礎數據結構，是一種線性表，但是並不會按線性的順序存儲數據，而是在每一個節點裏存到下一個節點的指針（Pointer）。
+
+**鏈表是由數據域和指針域兩部分組成的**，它的組成結構如下：
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468010/data%20structure%20and%20algorithm/linked%20list/Untitled_myddwr.png"  width="75%" height="75%" />
+
+每個節點只有一個指向下一個節點的指針，最後一個節點的指針指向空（NULL）。
+
+### 複雜度分析
+
+由於鏈表無需按順序存儲，因此鏈表在插入的時可以達到 O(1) 的複雜度，比順序錶快得多，但是查找一個節點或者訪問特定編號的節點則需要 O(n) 的時間，而順序表插入和查詢的時間複雜度分別是 O(log n) 和 O(1)。
+
+### 優缺點分析
+
+使用鏈表結構可以克服數組鏈表需要預先知道數據大小的缺點，鏈表結構可以充分利用計算機內存空間，實現靈活的內存動態管理。但是鏈表失去了數組隨機讀取的優點，同時鏈表由於增加了結點的指針域，空間開銷比較大。
+
+| 方法 | 最壞時間複雜度 | 說明 |
+| --- | --- | --- |
+| push() | O(n) | 將新節點新增到鏈表的末尾，需要遍歷整個鏈表。 |
+| pop() | O(n) | 將鏈表的最後一個節點彈出，需要遍歷整個鏈表。 |
+| shift() | O(1) | 將鏈表的第一個節點彈出，不需要遍歷整個鏈表。 |
+| unshift() | O(1) | 在鏈表的開頭新增一個新節點，不需要遍歷整個鏈表。 |
+| insertAt() | O(n) | 在鏈表的指定位置插入一個新節點，需要遍歷整個鏈表。 |
+| removeAt() | O(n) | 刪除鏈表中指定位置的節點，需要遍歷整個鏈表。 |
+| get() | O(n) | 獲取鏈表中指定位置節點的值，需要遍歷整個鏈表。 |
+
+<details>
+  <summary> 使用 JS 實現 linked list </summary>
+
+```jsx
+class Node {
+  constructor (value) { // 建立一個新的節點，傳入節點的值
+    this.value = value // 設定節點的值
+    this.next = null // 設定節點的下一個節點為 null
+  }
+}
+
+class LinkedList {
+  constructor () { // 建立一個新的鏈結串列
+    this.head = null // 設定鏈結串列的頭節點為 null
+    this.length = 0 // 設定鏈結串列的長度為 0
+  }
+
+  push (value) { // 在鏈結串列的尾部新增一個節點，傳入節點的值
+    let newNode = new Node(value) // 建立一個新的節點，傳入節點的值
+    if (this.head === null) { // 如果鏈結串列的頭節點為 null，代表鏈結串列是空的
+      this.head = newNode // 將新的節點設定為鏈結串列的頭節點
+    } else { // 如果鏈結串列不是空的
+      let currentNode = this.head // 設定目前節點為鏈結串列的頭節點
+      while (currentNode.next !== null) { // 如果目前節點的下一個節點不是 null，代表目前節點不是尾節點
+        currentNode = currentNode.next // 將目前節點設定為目前節點的下一個節點
+      }
+      currentNode.next = newNode // 將新的節點設定為目前節點的下一個節點，即新增節點到鏈結串列的尾部
+    }
+    this.length++ // 長度加 1
+  }
+
+  pop () { // 從鏈結串列的尾部移除一個節點
+    if (!this.head) { // 如果鏈結串列是空的，代表沒有節點可以移除
+      return null // 回傳 null
+    } else if (this.length === 1) { // 如果鏈結串列只有一個節點
+      let temp = this.head // 將頭節點存入 temp 變數
+      this.head = null // 將頭節點設定為 null，即移除頭節點
+      this.length = 0 // 長度設定為 0
+      return temp // 回傳被移除的節點
+    } else { // 如果鏈結串列有多個節點
+      let currentNode = this.head // 設定目前節點為鏈結串列的頭節點
+      for (let i = 1; i <= this.length - 2; i++) { // for 迴圈執行 length - 2 次，目的是找到尾節點的前一個節點
+        currentNode = currentNode.next // 將目前節點設定為目前節點的下一個節點
+      }
+      let temp = currentNode.next // 將尾節點存入 temp 變數
+      currentNode.next = null // 將尾節點的前一個節點的下一個節點設定為 null，即移除尾節點
+      this.length-- // 長度減 1
+      return temp // 回傳被移除的節點
+    }
+  }
+
+  // shift() 方法用來移除 Linked List 的第一個節點並回傳該節點
+  shift () {
+    if (!this.head) { // 如果 Linked List 為空，回傳 null
+      return null
+    } else if (this.length === 1) { // 如果 Linked List 只有一個節點，將 head 設為 null，長度設為 0，並回傳該節點
+      let temp = this.head
+      this.head = null
+      this.length = 0
+      return temp
+    } else { // 如果 Linked List 有多個節點，將 head 設為下一個節點，長度減 1，並回傳第一個節點
+      let temp = this.head
+      this.head = this.head.next
+      this.length--
+      return temp
+    }
+  }
+
+  // unshift() 方法用來在 Linked List 的開頭新增一個節點
+  unshift (value) {
+    if (!this.head) { // 如果 Linked List 為空，將 head 設為新節點
+      this.head = new Node(value)
+    } else { // 如果 Linked List 有節點，將 head 設為新節點，並將新節點的 next 指向原本的 head
+      let temp = this.head
+      let newNode = new Node(value)
+      this.head = newNode
+      this.head.next = temp
+    }
+    this.length++ // 長度加 1
+  }
+
+  insertAt (index, value) {
+    // 如果索引超出範圍或小於0，則返回null
+    if (index > this.length || index < 0) {
+      return null
+    }
+    // 如果索引為0，則在頭部插入新節點
+    else if (index === 0) {
+      this.unshift(value)
+      return
+    }
+    // 如果索引為列表長度，則在尾部插入新節點
+    else if (index === this.length) {
+      this.push(value)
+      return
+    }
+
+    let currentNode = this.head
+    let newNode = new Node(value)
+    // 遍歷索引-1步
+    for (let i = 1; i <= index - 1; i++) {
+      currentNode = currentNode.next
+    }
+    // 插入新節點
+    newNode.next = currentNode.next
+    currentNode.next = newNode
+    this.length++
+    return
+  }
+
+  // removeAt方法用於刪除指定索引位置的節點
+  removeAt (index) {
+    // 如果索引位置超出範圍，返回null
+    if (index > this.length || index < 0) {
+      return null
+    }
+    // 如果索引位置為0，調用shift方法刪除頭節點並返回刪除的節點
+    else if (index === 0) {
+      let result = this.shift()
+      return result
+    }
+    // 如果索引位置為最後一個節點，調用pop方法刪除尾節點並返回刪除的節點
+    else if (index === this.length) {
+      let result = this.pop()
+      return result
+    }
+
+    // 遍歷鏈表，找到要刪除的節點的前一個節點
+    let currentNode = this.head
+    for (let i = 1; i <= index - 1; i++) {
+      currentNode = currentNode.next
+    }
+    // 將要刪除的節點的前一個節點的next指向要刪除的節點的下一個節點
+    let temp = currentNode.next
+    currentNode.next = currentNode.next.next
+    // 鏈表長度減1
+    this.length--
+    // 返回刪除的節點
+    return temp
+  }
+
+  // get方法用來取得指定索引的節點值
+  get (index) {
+    // 如果索引超出範圍，回傳null
+    if (index >= this.length || index < 0) {
+      return null
+    }
+    // 走訪鏈結串列，找到指定索引的節點
+    let currentNode = this.head
+    for (let i = 0; i < index; i++) {
+      currentNode = currentNode.next
+    }
+    // 回傳指定索引的節點值
+    return currentNode.value
+  }
+
+  // printAll方法用來列印鏈結串列中所有節點的值
+  printAll () {
+    // 如果鏈結串列為空，列印提示訊息並返回
+    if (this.length === 0) {
+      console.log("Nothing in this linked list.")
+      return
+    }
+    // 走訪鏈結串列，列印每個節點的值
+    let currentNode = this.head
+    while (currentNode !== null) {
+      console.log(currentNode.value)
+      currentNode = currentNode.next
+    }
+  }
+}
+
+let myLinkedList = new LinkedList()
+myLinkedList.push("Mike")
+myLinkedList.push("Harry")
+myLinkedList.push("James")
+myLinkedList.push("Kevin")
+
+console.log(myLinkedList.get(100))
+
+myLinkedList.printAll()
+console.log(myLinkedList.length);
+```
+
+</details>
+
+## 雙向鏈表（doubly linked list）
+每個節點有兩個指針，一個指向前一個節點，一個指向後一個節點，第一個節點的前置指針和最後一個節點的後繼指針都指向空（NULL）。
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688467952/data%20structure%20and%20algorithm/linked%20list/Untitled_ncbbsw.png"  width="75%" height="75%" />
+
+## 循環鏈表（circular linked list）
+最後一個節點的指針不是NULL，而是指向第一個節點，從而形成一個環形結構。可以是單向循環鏈表或雙向循環鏈表。
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468010/data%20structure%20and%20algorithm/linked%20list/Untitled_myddwr.png"  width="75%" height="75%" />
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688468038/data%20structure%20and%20algorithm/linked%20list/Untitled_h3cldy.png"  width="75%" height="75%" />
