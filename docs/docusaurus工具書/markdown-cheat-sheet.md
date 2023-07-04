@@ -109,8 +109,13 @@ _italicized text_
 
 ![alt text](https://www.markdownguide.org/assets/images/tux.png)
 
+<img alt="demo picture" src="/img/docusaurus.png"  width="20%" height="20%" />
+
 ```
 ![alt text](https://www.markdownguide.org/assets/images/tux.png)
+
+<img alt="demo picture" src="/img/docusaurus.png"  width="50%" height="50%" />
+
 ```
 
 ---
