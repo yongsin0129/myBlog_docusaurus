@@ -11,5 +11,5 @@ keywords: [keywords, describing, the main topics]
 
 ## 自介
 
-化工所畢業，做過半導體製程，也有追夢創業，現在半路出家寫程式 ✍️
+化工所畢業，做過半導體製程，也曾追夢創業，現在半路出家寫程式 ✍️
 
