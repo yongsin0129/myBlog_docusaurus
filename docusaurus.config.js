@@ -148,12 +148,12 @@ const config = {
           autoCollapseCategories: true,
         },
       },
-      algolia:{
+      algolia: {
         apiKey: "e6b9909b7a7d702e21460b8eea459a84",
         indexName: "myblog",
         appId: "RTNEXMDKHO",
-      }
-
+      },
+      metadata: [{ name: "google-site-verification", content: "EcGo3UqmR3P-SUxCuwSeQ9b94K69bcXJmOHUTXNIwzs" }]
 
       // announcementBar:{
       //   id: 'announcement id',
