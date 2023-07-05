@@ -1,0 +1,35 @@
+---
+sidebar_label: 介紹
+sidebar_position: 1
+---
+
+雜湊表(Hash Table)又稱哈希表，是透過`雜湊函式(Hash Function)`來計算出一個`鍵(key)與值(value)`所對應的位置，進而建立`雜湊表格`，而後也能夠過雜湊函式來搜尋找出鍵值存放在表格的位置。
+
+由於動作都需要先經由雜湊函式來執行，若不被知道雜湊函式情況下，保密性就極高，因此很常被應用在`加密、解密、壓縮、驗證`等領域。
+
+<img alt="hash table" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688521689/hash%20table/Untitled_dlnrf8.png"  width="75%" height="75%" />
+
+## **專有名詞**
+
+- `桶(Bucket):`雜湊表中儲存資料的位置，每一個位置對應唯一位址(Bucket Address)。
+- `槽(Slot):`每一個桶中的資料欄位，例如：一筆資料有2個欄位，則代表桶中有2個槽。
+- `碰撞(Collision):`若2筆資料經過雜湊函數運算後的雜湊值相同，也就是對應到相同位址時，稱為碰撞。
+- `溢位(Overflow):`資料經過雜湊函數運算後，雜湊值所指向的桶位址已滿，無法再儲存，稱為溢位。
+
+## **雜湊函式設計原則**
+
+- 盡可能降低碰撞與溢位的產生
+- 不宜過於複雜，越容易計算越佳
+- 盡可能把文字轉換成數字的鍵值
+- 得到的雜湊值，盡可能分布均勻在每個桶中，不要過於集中。
+
+## 參考資料
+[白話的 Hash Table 簡介](https://blog.techbridge.cc/2017/01/21/simple-hash-table-intro/)
+
+[用 JavaScript 學習資料結構和演算法：字典（Dictionary）和雜湊表（Hash Table）篇](https://blog.techbridge.cc/2017/03/10/javascript-data-structure-algorithm-dictionary-hash-table/)
+
+[【Day9】[資料結構]-雜湊表Hash Table](https://ithelp.ithome.com.tw/m/articles/10268077)
+
+### 重點筆記:
+Hash Table 好不好用的關鍵跟這個神奇的 hash function 有很大的關係。
+讓我們想像一種情況，如果我們使用一個壞掉的 hash function，不管餵給這個 hash function 什麼內容他都會吐出同一個 index，那這樣的話就跟存一個 array 沒什麼兩樣。 搜尋的時間複雜度就會變成 O(n)。

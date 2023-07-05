@@ -8,6 +8,7 @@ keywords: [keywords, describing, the main topics]
 ## 筆記使用說明
 
 所有筆記內容均為個人使用非專業知識網站，文字依個人視角及當前知識所撰寫，方便日後查找及複習。
+P.S. 部份文字由 AI 產生
 
 ## 自介
 
