@@ -1,0 +1,37 @@
+---
+sidebar_label: BFS DFS 實作
+sidebar_position: 3
+---
+
+```jsx
+// 定義二叉樹節點
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+// BFS 實現
+function bfs(root) {
+  if (!root) return;
+  const queue = [root];
+
+  while (queue.length) {
+    const node = queue.shift();
+    console.log(node.val);
+    if (node.left) queue.push(node.left);
+    if (node.right) queue.push(node.right);
+  }
+}
+
+// DFS 實現
+function dfs(root) {
+  if (!root) return;
+  console.log(root.val);
+  dfs(root.left);
+  dfs(root.right);
+}
+
+```
