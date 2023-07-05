@@ -35,7 +35,7 @@ Overflow（溢出）指的是当hash table中的元素数量超过了其所能�
 
 假設2筆資料得出一樣的雜湊值，將以`線性方式`往後尋找直到有空的Bucket為止，一般來說也會視為環狀結構，若後面Bucket都滿了，可以循環到前面尋找。
 
-!https://ithelp.ithome.com.tw/upload/images/20210917/20121027ScabqSVxft.jpg
+<img alt="hash table" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688522379/hash%20table/image_xeuwsw.jpg"  width="75%" height="75%" />
 
 ### **2.平方探測法(Quadratic Probing)**
 
@@ -49,20 +49,16 @@ Overflow（溢出）指的是当hash table中的元素数量超过了其所能�
 
 第四次尋找: (H(x) - 2²) mod b…...以此類推。
 
-!https://ithelp.ithome.com.tw/upload/images/20210917/20121027YslMDxMQbP.jpg
+<img alt="hash table" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688522419/hash%20table/image_ybdgbb.jpg"  width="75%" height="75%" />
 
 ### **3.鏈結法(Chaining)**
 
 使用鏈結串列(Linked List)資料結構在每一組Bucket中。
 
-!https://ithelp.ithome.com.tw/upload/images/20210917/20121027hdzcEEqGsx.jpg
-
-> 鏈結串列的介紹可以參考此篇。
-> 
+<img alt="hash table" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688522477/hash%20table/image_l6uukq.jpg"  width="75%" height="75%" />
 
 ### **4.再雜湊法(Rehashing)**
 
 準備多個雜湊函式，當一個發生溢位時，則使用第二個函式，以此類推。
 
 > 雜湊表初始的陣列規模若太小，容易造成碰撞次數增加，而需要多次的碰撞處理;若規模太大，容易造成過多未儲存數據的陣列空間，因此初始設定適當的陣列規模相當重要。
->
