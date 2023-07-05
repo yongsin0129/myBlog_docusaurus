@@ -164,9 +164,20 @@ These elements extend the basic syntax by adding additional features. Not all Ma
 ### Toggle
 
 <details>
-  <summary> Title </summary>
-  Content
+<summary>
+
+簡單介紹
+
+```
+code here
+```
+
+</summary>
+
+內文
+
 </details>
+
 
 ```
 <details>
