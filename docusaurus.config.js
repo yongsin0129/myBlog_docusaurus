@@ -1,8 +1,8 @@
 // @ts-check
 // Note: type annotations allow type checking and IDEs autocompletion
 
-const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const lightCodeTheme = require('prism-react-renderer/themes/github')
+const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -40,6 +40,9 @@ const config = {
       ({
         docs: {
           sidebarPath: require.resolve('./sidebars.js'),
+          sidebarCollapsible: true,
+          sidebarCollapsed: true,
+
           // 如果想要讓其他人可以發送 pr ，提醒你修改頁面，可以將這個設定打開，並放上自已的 github 
           // editUrl: 
           //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
@@ -77,7 +80,7 @@ const config = {
           //   position: 'left',
           // },
           { to: '/docs/intro', label: 'Docs', position: 'left' },
-          { to: '/blog', label: 'Blog', position: 'left'},
+          { to: '/blog', label: 'Blog', position: 'left' },
           { to: '/portfolio', label: 'Portfolio', position: 'left' },
           {
             href: 'https://github.com/yongsin0129?tab=repositories',
@@ -140,6 +143,12 @@ const config = {
         disableSwitch: false,
         respectPrefersColorScheme: false,
       },
+      docs: {
+        sidebar: {
+          autoCollapseCategories: true,
+        },
+      }
+
 
       // announcementBar:{
       //   id: 'announcement id',
@@ -149,9 +158,9 @@ const config = {
       //   isCloseable: true
       // },
 
-      
+
 
     }),
-};
+}
 
-module.exports = config;
+module.exports = config
