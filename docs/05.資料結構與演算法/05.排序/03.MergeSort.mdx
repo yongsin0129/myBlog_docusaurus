@@ -1,0 +1,29 @@
+---
+sidebar_label: MergeSort
+sidebar_position: 3
+---
+## **合併排序（Merge Sort）**
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688523949/order/Untitled_bo34lf.png"  width="75%" height="75%" />
+
+**合併排序（Merge Sort）** 又稱為 **歸併排序**，是建立在合併操作上的一種有效的排序演算法，是採用 **[分治法](https://zh.wikipedia.org/wiki/%E5%88%86%E6%B2%BB%E6%B3%95)** 的一個非常典型的應用。
+
+分治法（Divide and Conquer）簡單來說就是將問題分成兩個子問題或更多的子問題，再繼續將子問題分解成更小的子問題，直到可以簡單求解，接著將所有子問題的結果合併，就能求得元問題的解。分治法一般會使用遞迴實現。
+
+操作流程，採用分治法，分為兩個操作：
+
+1. 分割：將數列平均分割成兩半，重複操作直到區塊中只剩一個元素。
+2. 合併：接著再將各個子陣列合併，合併時會反覆比較第一個數，並將較小的元素移至上一層中。重複操作直到剩一個數列，排序完畢。
+
+合併排序的實現有兩種方法：
+
+- 遞迴結構（自頂向下 Top-down）
+- 迭代結構（自底向上 Bottom-up）
+
+一般來說，合併排序是使用遞迴結構來實現的，但遞迴有一個問題，就是需要使用到額外空間來儲存子陣列，而且當遞迴函式被呼叫的過於頻繁，可能導致 **[堆疊溢位](https://zh.wikipedia.org/wiki/%E5%A0%86%E7%96%8A%E6%BA%A2%E4%BD%8D)**。
+
+為了優化合併排序（迭代結構），我們可以跳過分割這個操作，也就是一開始就將它們視為已分割狀態，比較相鄰兩個元素進行合併操作，每輪進行合併操作的元素都會翻倍成長。
+
+## 參考資料 :
+
+[JavaScript 學演算法（九）- 合併排序 – 竹白記事本 (chupai.github.io)](https://chupai.github.io/posts/200525_sort_algorithm_merge_sort/)

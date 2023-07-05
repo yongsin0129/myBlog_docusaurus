@@ -1,0 +1,27 @@
+---
+sidebar_label: QuickSort
+sidebar_position: 4
+---
+
+## **快速排序（Quick Sort）**
+
+<img alt="demo picture" src="https://res.cloudinary.com/dhnxanz2c/image/upload/v1688524098/order/Untitled_agmlgb.png"  width="75%" height="75%" />
+
+**快速排序（Quick Sort）** 是實用性很高的排序法，與合併排序一樣是使用 **[分治法](https://zh.wikipedia.org/wiki/%E5%88%86%E6%B2%BB%E6%B3%95)** 的應用。
+
+操作流程：
+
+1. 快速排序是從數列中隨機選擇一個數作為 **基準（pivot）**。
+2. 將比基準小的移至 **基準** 左邊，形成左區塊
+3. 將比基準大的移至 **基準** 右邊，形成右區塊
+4. 分別對左邊和右邊的區塊重複前項 3 操作（遞迴），直到區塊中只剩一個元素。
+
+重點 : 
+
+快速排序時間複雜最佳的情況必須剛好 **基準** 為數列的中間值，如果選取到最小或最大值，則會是最糟的情況。那麼我們選擇第一個元素作為 **基準**，如果數列已是排序狀態，就會導致演算法時間複雜度是最糟結果。
+
+為了避免這種極端的 **基準** 出現，比較常見的做法為選取中間位置或是隨機選取作為 **基準**，選取到最小或最大值的機率會降低。
+
+## 參考資料 :
+
+[JavaScript 學演算法（十）- 快速排序 – 竹白記事本 (chupai.github.io)](https://chupai.github.io/posts/2000601_sort_algorithm_quick_sort/)
