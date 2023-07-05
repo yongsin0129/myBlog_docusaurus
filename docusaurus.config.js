@@ -153,7 +153,7 @@ const config = {
         indexName: "myblog",
         appId: "RTNEXMDKHO",
       },
-      metadata: [{ name: "google-site-verification", content: "EcGo3UqmR3P-SUxCuwSeQ9b94K69bcXJmOHUTXNIwzs" }]
+      metadata: [{ name: "google-site-verification", content: "EcGo3UqmR3P-SUxCuwSeQ9b94K69bcXJmOHUTXNIwzs" }, { name: 'keywords', content: '永c隨筆, 永C隨筆' }]
 
       // announcementBar:{
       //   id: 'announcement id',
