@@ -24,7 +24,7 @@ sidebar_position: 2
 ## 實作方式 - JS程式碼    
 
   以下是 js 的二元樹節點的實現：
-  ```
+  ```jsx
   function Node(value) {
     this.value = value;
     this.left = null;
@@ -37,7 +37,7 @@ sidebar_position: 2
   
   1. Preorder Traversal (先序遍歷)
   
-  ```
+  ```jsx
   function preorderTraversal(node) {
     if (node !== null) {
       console.log(node.value);
@@ -50,7 +50,7 @@ sidebar_position: 2
   
   1. Inorder Traversal (中序遍歷)
   
-  ```
+  ```jsx
   function inorderTraversal(node) {
     if (node !== null) {
       inorderTraversal(node.left);
@@ -63,7 +63,7 @@ sidebar_position: 2
   
   1. Postorder Traversal (後序遍歷)
   
-  ```
+  ```jsx
   function postorderTraversal(node) {
     if (node !== null) {
       postorderTraversal(node.left);
