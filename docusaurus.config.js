@@ -10,12 +10,8 @@ const config = {
   tagline: '記錄個人學習的成長過程及心得',
   favicon: 'img/pageIco/editnote_pencil_edi_6175.ico',
 
-  // Set the production url of your site here
-  url: 'https://incomparable-crostata-192195.netlify.app/',
-
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
-  baseUrl: '/',
+  url: "https://yongsin0129.github.io",
+  baseUrl: "/myBlog_docusaurus/",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
