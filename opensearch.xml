@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/"
+                       xmlns:moz="http://www.mozilla.org/2006/browser/search/">
+  <ShortName>永c隨筆</ShortName>
+  <Description>Search 永c隨筆</Description>
+  <InputEncoding>UTF-8</InputEncoding>
+  <Image width="16" height="16" type="image/x-icon">https://yongsin0129.github.io/myBlog_docusaurus/img/pageIco/editnote_pencil_edi_6175.ico</Image>
+  <Url type="text/html" method="get" template="https://yongsin0129.github.io/myBlog_docusaurus/search?q={searchTerms}"/>
+  <Url type="application/opensearchdescription+xml" rel="self" template="https://yongsin0129.github.io/myBlog_docusaurus/opensearch.xml" />
+  <moz:SearchForm>https://yongsin0129.github.io/myBlog_docusaurus/</moz:SearchForm>
+</OpenSearchDescription>
