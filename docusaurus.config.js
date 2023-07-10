@@ -11,12 +11,12 @@ const config = {
   favicon: 'img/pageIco/editnote_pencil_edi_6175.ico',
 
   url: "https://yongsin0129.github.io",
-  baseUrl: "/myBlog_docusaurus/",
+  baseUrl: "/myBlog_docusaurus",
 
   // GitHub pages deployment config.
   // If you aren't using GitHub pages, you don't need these.
   organizationName: 'yongsin0129', // Usually your GitHub org/user name.
-  projectName: 'YongSin`s note', // Usually your repo name.
+  projectName: 'myBlog_docusaurus', // Usually your repo name.
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
