@@ -143,6 +143,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        additionalLanguages: ['powershell','docker'],
       },
       colorMode: {
         defaultMode: 'dark',
