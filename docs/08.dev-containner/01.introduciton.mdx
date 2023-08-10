@@ -3,13 +3,11 @@ sidebar_label: introduction
 sidebar_position: 1
 ---
 
-# Introduction
-
 架設開發環境常常很難搞，有時候希望同一台電腦有不同的開發環境 or 開發設定。
 
 這時候 vscode extension - dev-containers 就可以解決這個問題
 
-# how to create a container
+## how to create a container
 
 1. docker desktop 必需先啟動
 2. 開啟一個 project
@@ -25,7 +23,7 @@ or
 
 `choose Add Dev Container Configuration Files`
 
-# devcontainer.json
+## devcontainer.json
 
 ```json
 //devcontainer.json
@@ -60,7 +58,7 @@ or
 }
 ```
 
-# how to start app in a container
+## how to start app in a container
 
 1. 
 
@@ -74,11 +72,11 @@ ex : `npm install` or `pip install -r requirements.txt`
 
 3. `npm run start` or `python app.py`
 
-# Forwarding ports
+## Forwarding ports
 
 另外產生一個 container 會是與外界隔絕的，所以一樣需要做 port mapping
 
-# Modifying a project configuration
+## Modifying a project configuration
 
 Modifying a project configuration [6 of 8] | Beginner's Series to: Dev Containers
 https://www.youtube.com/watch?v=YtiAUoh2U9A&ab_channel=VisualStudioCode
@@ -90,7 +88,7 @@ extension - 如果是啟動 container 狀態，直接在 store 上面就有 "安
 
 settings - 可以做 vscode 的設定
 
-# Installing software
+## Installing software in docker env.
 在 .devcontainer 資料夾底下創一個 Dockerfile
 
 所以 .devcontainer 資料夾底下會有兩個檔案
