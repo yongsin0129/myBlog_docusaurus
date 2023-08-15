@@ -1,0 +1,38 @@
+---
+sidebar_label: 使用 wsl run ubuntu
+sidebar_position: 3
+---
+
+## 1. WSL 2 安裝
+
+- 使用 WSL 2 打造優質的多重 Linux 開發環境
+
+
+  https://blog.miniasp.com/post/2020/07/26/Multiple-Linux-Dev-Environment-build-on-WSL-2
+
+## 2. install vscode extensions wsl
+
+  https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl
+
+## 3. create an os in wsl ubutun
+
+  可以使用匯出特定 WSL Distro 版本為 \*.tar 檔
+
+  創造多個不同的 os env 來做開發環境
+
+  ```
+  wsl --export WLinux WLinux.tar
+
+  wsl --import WLinuxDev .\WLinuxDev WLinux.tar --version 2
+  wsl --import WLinuxGo .\WLinuxGo WLinux.tar --version 2
+  wsl --import WLinuxDotNet .\WLinuxDotNet WLinux.tar --version 2
+
+  ```
+
+  可參考 step 1 的 BLOG
+
+## WSL and ubuntu 常用指令
+
+- check os version  
+  
+      lsb_release -a

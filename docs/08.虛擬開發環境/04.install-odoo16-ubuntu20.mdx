@@ -1,0 +1,159 @@
+---
+sidebar_label: install-odoo16-ubuntu20.mdx
+sidebar_position: 4
+---
+# step 0 
+
+    ubuntu default install
+
+    python 3.8
+    docker
+
+# step 1 install postgreSQL
+
+    使用 docker compose 起一個 db
+
+``` docker title="docker-compose.yml"
+version: '3.5'
+services:
+
+  db:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
+
+volumes:
+  odoo-db-data:
+```
+
+      確認 db 連線是否正常 
+
+      - 安裝 psql 
+
+      sudo apt update
+      sudo apt install postgresql-client
+
+      - connect to db
+
+      psql -h localhost -U odoo -d postgres
+
+
+# step 2 install wkhtmltopdf
+
+Reference : [Install wkhtmltopdf & wkhtmltoimage on Ubuntu / Debian](https://computingforgeeks.com/install-wkhtmltopdf-on-ubuntu-debian-linux/?expand_article=1)
+
+```
+sudo apt update
+sudo apt install wget
+```
+Ubuntu 20.04:
+
+```
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
+sudo apt install -f ./wkhtmltox_0.12.6-1.focal_amd64.deb
+```
+
+check install and version
+
+```
+wkhtmltopdf --version
+wkhtmltoimage --version
+```
+
+# step 3 download odoo project
+```
+git clone https://github.com/odoo/odoo.git
+```
+
+# step 4 install prerequisites 
+
+install libsasl2
+
+```
+sudo apt update
+
+sudo apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev
+
+sudo apt install git python3-pip build-essential wget python3-dev python3-venv \
+    python3-wheel libfreetype6-dev libxml2-dev libzip-dev libldap2-dev libsasl2-dev \
+    python3-setuptools node-less libjpeg-dev zlib1g-dev libpq-dev \
+    libxslt1-dev libldap2-dev libtiff5-dev libjpeg8-dev libopenjp2-7-dev \
+    liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev
+```
+
+install requirements
+
+```
+pip3 install wheel setuptools==57.5.0
+pip3 install -r requirements.txt
+```
+
+# step 5 check odoo.conf
+
+```
+[options]
+db_host = localhost
+db_user = odoo
+db_password = odoo
+db_db = postgres
+addons_path = addons, odoo/addons, ../addons
+# admin_passwd = 
+# list_db = False
+```
+
+## step 6 start odoo server
+
+Reference : [odoo CLI] (https://www.odoo.com/documentation/13.0/developer/cli.html)
+
+完整版指令
+```
+python3 odoo-bin -w odoo -r odoo -c ./config/odoo.conf
+```
+
+簡略指令
+```
+python3 odoo-bin -c config/odoo.conf
+```
+
+
+簡略指令 : odoo 13 需要 init db
+```
+python3 odoo-bin -c config/odoo.conf --database=foo -i base
+```
+
+
+## 有用到的指令
+
+Reference : [Initializing a new Odoo database](https://subscription.packtpub.com/book/business-and-other/9781784392796/1/ch01lvl1sec10/initializing-a-new-odoo-database)
+
+```
+python3 odoo-bin -c config/odoo.conf -d <v1dev>
+``` 
+
+postgreSQL connection
+```
+`psql -h db -U odoo -d postgres`
+`ctrl + D` 退出 psql 
+`\l` // check all database 
+`\c <database>` 使用 database 
+`DROP DATABASE <database>;` delete    記得 sql statement 最後的分號 
+```
+
+Database creation error: Access denied
+```
+https://www.odoo.com/zh_TW/forum/bang-zhu-1/database-creation-error-access-denied-105200 
+
+root cause : admin_passwd in odoo.conf.
+```
+
+# 參考筆記
+
+[twtrubiks  : 建立 odoo 開發環境 ( source code )] (https://github.com/twtrubiks/odoo-development-environment-tutorial
+) 
