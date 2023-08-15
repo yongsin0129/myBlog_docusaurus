@@ -2,14 +2,14 @@
 sidebar_label: install-odoo16-ubuntu20.mdx
 sidebar_position: 4
 ---
-# step 0 
+## step 0 
 
     ubuntu default install
 
     python 3.8
     docker
 
-# step 1 install postgreSQL
+## step 1 install postgreSQL
 
     使用 docker compose 起一個 db
 
@@ -45,7 +45,7 @@ volumes:
       psql -h localhost -U odoo -d postgres
 
 
-# step 2 install wkhtmltopdf
+## step 2 install wkhtmltopdf
 
 Reference : [Install wkhtmltopdf & wkhtmltoimage on Ubuntu / Debian](https://computingforgeeks.com/install-wkhtmltopdf-on-ubuntu-debian-linux/?expand_article=1)
 
@@ -67,12 +67,12 @@ wkhtmltopdf --version
 wkhtmltoimage --version
 ```
 
-# step 3 download odoo project
+## step 3 download odoo project
 ```
 git clone https://github.com/odoo/odoo.git
 ```
 
-# step 4 install prerequisites 
+## step 4 install prerequisites 
 
 install libsasl2
 
@@ -95,7 +95,7 @@ pip3 install wheel setuptools==57.5.0
 pip3 install -r requirements.txt
 ```
 
-# step 5 check odoo.conf
+## step 5 check odoo.conf
 
 ```
 [options]
@@ -151,6 +151,35 @@ Database creation error: Access denied
 https://www.odoo.com/zh_TW/forum/bang-zhu-1/database-creation-error-access-denied-105200 
 
 root cause : admin_passwd in odoo.conf.
+```
+
+## 使用 vscode 建立 debug environment
+
+```json title=".vscode/launch.json"
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "odoo v16",
+      "type": "python",
+      "request": "launch",
+      // "stopOnEntry": true,
+      "program": "${workspaceFolder}/odoo-16.0/odoo-bin",
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        // "-d",
+        // "odoo",
+        "-c",
+        "${workspaceFolder}/odoo-16.0/config/odoo.conf",
+        "--addons-path=odoo-16.0/addons, odoo-16.0/odoo/addons,addons"
+      ]
+    }
+  ]
+}
 ```
 
 # 參考筆記
