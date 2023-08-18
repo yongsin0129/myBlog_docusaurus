@@ -63,6 +63,10 @@ const config = {
           ignorePatterns: ['/tags/**'],
           filename: 'sitemap.xml',
         },
+        gtag: {
+          trackingID: 'G-ETSBPCK259',
+          anonymizeIP: true,
+        },
       }),
     ],
   ],
@@ -143,7 +147,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['powershell','docker'],
+        additionalLanguages: ['powershell', 'docker'],
       },
       colorMode: {
         defaultMode: 'dark',
