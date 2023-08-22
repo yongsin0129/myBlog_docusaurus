@@ -1,0 +1,88 @@
+---
+sidebar_label: example03-docker-compose
+sidebar_position: 5
+---
+
+## docker-compose example
+
+```yml title="<docker compose file name>.yml"
+version: '3.8' # docker compose 的版本
+
+services: # 容器
+  servicename: # 服务名字，这个名字也是内部 bridge网络可以使用的 DNS name
+    container_name: # container 的名字 ，但使用自定義名字會影響到 scale !!
+    build: # 對應 compose build 的功能 
+      context: # 指定需要 build 的文件夾
+      dockerfile: # 指定 文件夾內的 dockerfile name
+    image: # image 的名字
+    restart: always
+    command: # 可选，如果设置，则会覆盖默认镜像里的 CMD命令
+    environment: # 可选，相当于 docker run里的 --env
+    volumes: # 可选，相当于docker run里的 -v
+    networks: # 可选，相当于 docker run里的 --network
+    ports: # 可选，相当于 docker run里的 -p
+  servicename2:
+
+volumes: # 可选，相当于 docker volume create
+
+networks: # 可选，相当于 docker network create
+```
+
+## docker-compose yml
+
+```yml title="docker-compose.yml"
+version: "3.8"
+
+services: # 容器
+  postgres-demo: # 服务名字，这个名字也是内部 bridge网络可以使用的 DNS name
+    container_name: postgresLocal    
+    image: postgres:alpine3.17
+    restart: always
+    environment: # 可选，相当于 docker run里的 --env
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+    volumes: # 可选，相当于docker run里的 -v
+      - //e/homePG/seal/data:/var/lib/postgresql/data
+    ports: # 可选，相当于 docker run里的 -p
+      - 5433:5432
+```
+## CLI
+
+`docker-compose down && docker-compose -f docker-compose.yml up -d`
+
+- 參數說明:
+-f 指定 yaml 檔
+-d 在後台執行
+
+--build 查看 image 有無更新，若有更新會再重新 build 一次
+ex : `docker-compose up -d --build`
+
+--remove-orphans 如果 compose 文件中有刪掉 service ，則這個參教會幫忙移除
+ex : `docker-compose up -d --remove-orphans`
+
+--scale "{serviceName}={number}"
+ex : `docker-compose up -d --scale {serviceName}=3`  ( serviceName 代入想要擴展的 service )
+
+- 指令列表:
+
+docker-compose up 创建和启动容器
+
+docker-compose up -d 以分离模式创建和启动容器
+
+docker-compose down 停止和删除容器、网络、映像和卷
+
+docker-compose restart 重启所有服务 (也會視 compose 內容做更新)
+
+docker-compose logs 查看容器的输出
+
+docker-compose config 验证并查看 Compose 文件
+
+docker-compose scale {service_name}={replica} 为服务指定容器个数
+
+docker-compose top 显示正在运行的进程
+
+docker-compose run -rm -p 2022:22 web bash ( 启动 Web 服务并运行 bash 作为其命令，删除旧容器。)
+
+docker-compose build 构建所有服务的镜像 (需要在 compose 內有寫 build 及其參數 context ，就可以進行 build)
+
+docker-compose pull 拉取 or 构建所有服务所需要镜像

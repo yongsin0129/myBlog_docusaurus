@@ -1,0 +1,77 @@
+---
+sidebar_label: example04-APPwithDatabase
+sidebar_position: 6
+---
+
+[github : 使用 docker 包 app + postgreSQL 練習](https://github.com/yongsin0129/selfLearning-docker/tree/f2051ad00c1c79d97e814b209ef2f3e4950d24f3/04-postgre-express)
+
+## dockerfile for express app
+
+```docker title="dockerfile"
+FROM node:16.19.0-slim
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 3000
+
+CMD [ "node", "index.js" ]
+```
+
+## docker compose
+
+```yml title="docker-compose.yml"
+version: "3.8"
+
+services: # 容器
+  pg: # 服务名字，这个名字也是内部 bridge网络可以使用的 DNS name
+    image: postgres:alpine3.17
+    restart: always
+    environment: # 可选，相当于 docker run里的 --env
+      - POSTGRES_USER=dbuser
+      - POSTGRES_PASSWORD=dbpass
+    volumes: # 可选，相当于docker run里的 -v
+      - //e/homePG/seal/data:/var/lib/postgresql/data
+    ports: # 可选，相当于 docker run里的 -p
+      - 5433:5432
+    networks:
+      - net-demo
+  
+  express-demo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: express-demo
+    ports:
+      - 3000:3000
+    networks:
+      - net-demo
+
+networks:
+  net-demo:
+    name: net-demo
+```
+
+## 記錄
+
+`docker-compose down && docker-compose -f docker-compose.yml up -d`
+
+因為 compose 裡面有寫 build , 所以直接 compose 就會 build 工作目錄下的 Dockerfile (express-demo)
+
+### 採坑記錄
+兩個 container 要互相連接時，需要在用一個 network 環境下，另外指定 service name 即可，不需要 port 。
+
+如果要加上 port 的話，記得是 container 裡面的 port 5432 ，不是 expose 的 5433
+
+ex : 
+
+UrlLocal = "mongodb://admin:password@localhost:5433"
+
+UrlDocker = "mongodb://admin:password@pg"  // 這邊的 pg 是 compose 裡面 service name
+
+UrlDocker = "mongodb://admin:password@pg:5432"

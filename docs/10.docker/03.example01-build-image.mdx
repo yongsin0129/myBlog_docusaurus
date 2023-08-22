@@ -1,0 +1,41 @@
+---
+sidebar_label: example01-build-image
+sidebar_position: 3
+---
+
+[github](https://github.com/yongsin0129/selfLearning-docker/tree/f2051ad00c1c79d97e814b209ef2f3e4950d24f3/01-hello-docker)
+
+## dockerfile
+
+```docker title="dockerfile"
+FROM node:16.19.0-slim
+
+# 變更工作目錄到指定位置 , 若無此目錄則創建一個
+WORKDIR /usr/src/app
+
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+# where available (npm@5+)
+COPY package*.json ./
+
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
+
+# Bundle app source ,  copy '當前目錄全部內容' 到 'image當前的工作目錄'
+COPY . .
+
+# container port
+EXPOSE 8080
+
+# execute when container run
+CMD [ "node", "server.js" ]
+```
+
+## build image
+
+```zsh
+docker build . -t <image name>
+
+# e.g: docker build . -t my-first-image
+```
