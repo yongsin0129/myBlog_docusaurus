@@ -113,8 +113,8 @@ class ResStudent(models.Model):
 [官網手冊-view](https://www.odoo.com/documentation/16.0/developer/reference/backend/views.html)
 
 - 修改 views.xml 就可以在主選單看到 "學生模組" ，並且點擊後有跳轉的動作
-- 跳轉後的 tree view 可以用 <record model="ir.ui.view"></record> 來控制
-- 點擊新增後需要顯示 form view ，<form><group></group></form> P.S. 不加 <group> 會無法顯示 column title
+- 跳轉後的 tree view 可以用 `<record model="ir.ui.view"></record>` 來控制
+- 點擊新增後需要顯示 form view ，`<form><group></group></form>` P.S. 不加 `<group>` 會無法顯示 column title
 - id="my_module.menu_1" 這邊的 my_module 要改成自已 module 的名字
 
 ```xml
@@ -515,11 +515,11 @@ Odoo 提供建立 report 的功能，透過 wkhtmltopdf 來輸出 pdf
 
 - Odoo 的 Template 代表畫面，是用 Qweb 撰寫，將 xml 轉譯成 html
 
-- id：自定義，不重複即可，會跟　 actions.report 做 binding
+- id：自定義，不重複即可，會跟 actions.report 做 binding
 
 - t：以 t 開頭的為 Qweb 寫法，基本上一開始寫的是一樣的
 
-- t-call="web.external_layout ：提供我們基本的 header 與 footer <t t-foreach="docs" t-as="o"> ：代表遍歷整個 records，像是 python 的 for o in records:
+- t-call="web.external_layout ：提供我們基本的 header 與 footer `<t t-foreach="docs" t-as="o">` ：代表遍歷整個 records，像是 python 的 for o in records:
 
 - t-as 是幫你的 model 的名稱
 
