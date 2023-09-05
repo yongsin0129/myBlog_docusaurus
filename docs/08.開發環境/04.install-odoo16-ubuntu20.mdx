@@ -13,7 +13,7 @@ sidebar_position: 4
 
     使用 docker compose 起一個 db
 
-``` docker title="docker-compose.yml"
+```yml title="docker-compose.yml"
 version: '3.5'
 services:
 
@@ -49,26 +49,26 @@ volumes:
 
 Reference : [Install wkhtmltopdf & wkhtmltoimage on Ubuntu / Debian](https://computingforgeeks.com/install-wkhtmltopdf-on-ubuntu-debian-linux/?expand_article=1)
 
-```
+```zsh
 sudo apt update
 sudo apt install wget
 ```
 Ubuntu 20.04:
 
-```
+```zsh
 wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.focal_amd64.deb
 sudo apt install -f ./wkhtmltox_0.12.6-1.focal_amd64.deb
 ```
 
 check install and version
 
-```
+```zsh
 wkhtmltopdf --version
 wkhtmltoimage --version
 ```
 
 ## step 3 download odoo project
-```
+```zsh
 git clone https://github.com/odoo/odoo.git
 ```
 
@@ -76,7 +76,7 @@ git clone https://github.com/odoo/odoo.git
 
 install libsasl2
 
-```
+```zsh
 sudo apt update
 
 sudo apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev ttf-wqy-zenhei ttf-wqy-microhei
@@ -90,14 +90,14 @@ sudo apt install git python3-pip build-essential wget python3-dev python3-venv \
 
 install requirements
 
-```
+```zsh
 pip3 install wheel setuptools==57.5.0
 pip3 install -r requirements.txt
 ```
 
 ## step 5 check odoo.conf
 
-```
+```shell
 [options]
 db_host = localhost
 db_user = odoo
@@ -113,18 +113,18 @@ addons_path = addons, odoo/addons, ../addons
 Reference : [odoo CLI](https://www.odoo.com/documentation/13.0/developer/cli.html)
 
 完整版指令
-```
+```zsh
 python3 odoo-bin -w odoo -r odoo -c ./config/odoo.conf
 ```
 
 簡略指令
-```
+```zsh
 python3 odoo-bin -c config/odoo.conf
 ```
 
 
 簡略指令 : odoo 13 需要 init db
-```
+```zsh
 python3 odoo-bin -c config/odoo.conf --database=foo -i base
 ```
 
@@ -133,12 +133,12 @@ python3 odoo-bin -c config/odoo.conf --database=foo -i base
 
 Reference : [Initializing a new Odoo database](https://subscription.packtpub.com/book/business-and-other/9781784392796/1/ch01lvl1sec10/initializing-a-new-odoo-database)
 
-```
+```zsh
 python3 odoo-bin -c config/odoo.conf -d <v1dev>
 ``` 
 
 postgreSQL connection
-```
+```zsh
 `psql -h db -U odoo -d postgres`
 `ctrl + D` 退出 psql 
 `\l` // check all database 
