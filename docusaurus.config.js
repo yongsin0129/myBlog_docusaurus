@@ -181,6 +181,26 @@ const config = {
 
 
     }),
+
+  // 新增 scripts tag into website
+  // 改使用 injectHtmlTags 的方式，就不在這邊另外寫 scripts
+  // scripts: [
+  //   // String format.
+  //   // 'https://docusaurus.io/script.js',
+  //   {
+  //     src: "https://www.chatbase.co/embed.min.js",
+  //     id: "V5_rBtZ9J8a58fjU1T-sf",
+  //     defer: true,
+  //   },
+  // ],
+
+  // 使用 import ExecutionEnvironment from '@docusaurus/ExecutionEnvironment'
+  // clientModules: [
+  //   require.resolve('./src/js/chatbase.js')
+  // ],
+
+  // 使用 module.exports = function (context, options) { return xxxx }
+  plugins: ['./src/js/injectHtmlTags.js'],
 }
 
 module.exports = config
