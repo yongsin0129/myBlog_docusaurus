@@ -778,6 +778,20 @@ alias docker-compose='sudo docker compose'
 
 ```
 
+永久性 alias
+
+[stack overflow](https://askubuntu.com/questions/17536/how-do-i-create-a-permanent-bash-alias)
+
+```
+sudo vim ~/.bashrc
+```
+
+新增 alias 後，記得 exec
+
+```
+. ~/.bashrc
+```
+
 ## root privilege
 
 取得 管理者權限
@@ -824,4 +838,3 @@ chown runfoo file1.txt
 ```
 
 [菜鳥教程](https://www.runoob.com/linux/linux-comm-chown.html)
-
