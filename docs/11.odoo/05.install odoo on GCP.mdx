@@ -1,0 +1,129 @@
+---
+sidebar_label: install odoo on GCP
+sidebar_position: 5
+---
+
+本篇記錄用 GCP CE VM + docker compose 建立一個 odoo production env
+
+## step 0
+
+- GCP CE VM with ubuntu 20.04
+- Firewall settings (ssh http https)
+
+## step 1 ssh to VM
+
+[SSH 進 GCP 的 3 種方式](https://ithelp.ithome.com.tw/articles/10251134)
+
+使用方式 2 + 3 :
+
+- 先建立一組 key
+  `ssh-keygen -t rsa -f ~/.ssh/[KEY_FILENAME] -C [USERNAME]`
+  `ssh-keygen -t rsa -f ~/.ssh/gcpn01 -C gcpn01`
+- copy pub key and upload (CE -> settings -> 中繼資料 -> 安全殼層)
+  `cd ~/.ssh`
+  `cat gcpn01.pub`
+- 修改 ssh config
+  `vim ~/.ssh/config`
+
+  ```
+  Host gcpApache01            //自訂alias
+  HostName   14.19.17.13  //ip
+  Port 22                     //host SSH port
+  IdentitiesOnly yes          //指定key
+  IdentityFile ~/.ssh/gcpa01  // 指定pub key 路徑
+  User gcpa01                 //登入username，
+  ```
+
+- 透過 vscode remote 做 SSH 連線
+  os version `lsb_release -a`
+  out bound ip `curl ifconfig.me`
+
+## step 2 install docker in VM
+
+[How To Install Docker on Ubuntu 20.04](https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04)
+
+Step 1: Update the Package Repository
+`sudo apt update`
+
+Step 2: Install Prerequisite Packages
+`sudo apt install apt-transport-https ca-certificates curl software-properties-common -y`
+
+Step 3: Add GPG Key
+`curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
+
+Step 4: Add Docker Repository
+`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`
+
+Step 5: Specify Installation Source
+`apt-cache policy docker-ce`
+
+Step 6: Install Docker
+`sudo apt install docker-ce -y`
+
+Step 7: Check Docker Status
+`sudo systemctl status docker`
+
+## step 3 clone odoo docker framework
+
+[odoo docker framework](https://github.com/odoocker/odoocker)
+
+git clone `git clone -b 16.0 --single-branch --depth=1 https://github.com/odoocker/odoocker.git`
+
+## step 4 change env
+
+設定本地 host
+
+`echo '127.0.0.1 foo.yongsin.site' | sudo tee -a /etc/hosts`
+
+for local
+
+`cp .env.example .env && cp docker-compose.override.local.yml docker-compose.override.yml`
+
+for production
+
+`cp .env.example .env && cp docker-compose.override.production.yml docker-compose.override.yml`
+
+env
+
+```
+...
+APP_ENV=production
+DOMAIN=your domain e.g. foo.yongsin.site
+
+ADMIN_PASSWD=odoo e.g. your password
+CORS_ALLOWED_DOMAIN="'http://foo.yongsin.site'"
+PGADMIN_DOMAIN=pgadmin.odoocker.test e.g. 如需使用再設定
+
+# Docker
+PROJECT_NAME=odoocker
+SUPPORT_EMAIL=mail@example.com e.g. your email
+
+```
+
+git project init
+
+`git init`
+
+## step 5 start server
+
+alias
+`alias aliasname='commands'`
+
+```
+alias docker-compose='sudo docker compose'
+
+```
+
+start
+
+`docker-compose down && docker-compose up -d --build && docker-compose logs odoo`
+
+stop
+
+`docker-compose down`
+
+check ps
+
+`ps -aux | odoo`
+
+`ps -aux | docker`
