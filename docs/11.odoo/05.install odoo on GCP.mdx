@@ -1,44 +1,23 @@
 ---
-sidebar_label: install odoo on GCP
+sidebar_label: install odoo on cloud
 sidebar_position: 5
 ---
 
-本篇記錄用 GCP CE VM + docker compose 建立一個 odoo production env
+## vm using odoocker
 
-## step 0
+ref : https://github.com/odoocker/odoocker
 
-- GCP CE VM with ubuntu 20.04
-- Firewall settings (ssh http https)
+這是一個使用 docker compose up 把 odoo + db + nginx + ssh 一次建立的方案
 
-## step 1 ssh to VM
+- 優點 : 快速建立
 
-[SSH 進 GCP 的 3 種方式](https://ithelp.ithome.com.tw/articles/10251134)
+- 缺點 : domain 目前只能設定一個
 
-使用方式 2 + 3 :
+### 要求
 
-- 先建立一組 key
-  `ssh-keygen -t rsa -f ~/.ssh/[KEY_FILENAME] -C [USERNAME]`
-  `ssh-keygen -t rsa -f ~/.ssh/gcpn01 -C gcpn01`
-- copy pub key and upload (CE -> settings -> 中繼資料 -> 安全殼層)
-  `cd ~/.ssh`
-  `cat gcpn01.pub`
-- 修改 ssh config
-  `vim ~/.ssh/config`
+完成前置作業，能 ssh 進入 vm
 
-  ```
-  Host gcpApache01            //自訂alias
-  HostName   14.19.17.13  //ip
-  Port 22                     //host SSH port
-  IdentitiesOnly yes          //指定key
-  IdentityFile ~/.ssh/gcpa01  // 指定pub key 路徑
-  User gcpa01                 //登入username，
-  ```
-
-- 透過 vscode remote 做 SSH 連線
-  os version `lsb_release -a`
-  out bound ip `curl ifconfig.me`
-
-## step 2 install docker in VM
+### step 2 install docker in VM
 
 [How To Install Docker on Ubuntu 20.04](https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04)
 
@@ -63,13 +42,13 @@ Step 6: Install Docker
 Step 7: Check Docker Status
 `sudo systemctl status docker`
 
-## step 3 clone odoo docker framework
+### step 3 clone odoo docker framework
 
 [odoo docker framework](https://github.com/odoocker/odoocker)
 
 git clone `git clone -b 16.0 --single-branch --depth=1 https://github.com/odoocker/odoocker.git`
 
-## step 4 change env
+### step 4 change env
 
 設定本地 host
 
@@ -104,7 +83,7 @@ git project init
 
 `git init`
 
-## step 5 start server
+### step 5 start server
 
 alias
 `alias aliasname='commands'`
@@ -127,3 +106,287 @@ check ps
 `ps -aux | odoo`
 
 `ps -aux | docker`
+
+## vm using Yenthe666
+
+ref : https://github.com/Yenthe666/InstallScript
+
+這是使用 Yenthe666 script 快速在 vm 中安裝開發環境的專案
+
+- 優點 : 所有東西都在 VM ，不會隔一層 container
+
+- 缺點 : vm 中的環境要保護好不能受到汙染 , 不能 multi domain , 需自已設定
+
+### 要求
+
+完成前置作業，能 ssh 進入 vm
+
+### step 2 Download the script
+
+```
+sudo wget https://raw.githubusercontent.com/Yenthe666/InstallScript/16.0/odoo_install.sh
+```
+
+
+### step 3 Modify the parameters as you wish
+
+- `OE_USER` will be the username for the system user.
+
+- `GENERATE_RANDOM_PASSWORD` if this is set to `True` the script will generate a random password, if set to `False`we'll set the password that is configured in `OE_SUPERADMIN`. By default the value is `True` and the script will generate a random and secure password.
+- `INSTALL_WKHTMLTOPDF` set to `False` if you do not want to install Wkhtmltopdf, if you want to install it you should set it to `True`.
+- `OE_PORT` is the port where Odoo should run on, for example 8069.
+- `OE_VERSION` is the Odoo version to install, for example `16.0` for Odoo V16.
+- `IS_ENTERPRISE` will install the Enterprise version on top of `16.0` if you set it to `True`, set it to `False` if you want the community version of Odoo 16.
+- `OE_SUPERADMIN` is the master password for this Odoo installation.
+- `INSTALL_NGINX` is set to `False` by default. Set this to `True` if you want to install Nginx.
+- `WEBSITE_NAME` Set the website name here for nginx configuration
+- `ENABLE_SSL` Set this to `True` to install [certbot](https://github.com/certbot/certbot) and configure nginx with https using a free Let's Encrypted certificate
+- `ADMIN_EMAIL` Email is needed to register for Let's Encrypt registration. Replace the default placeholder with an email of your organisation.
+- `INSTALL_NGINX` and `ENABLE_SSL` must be set to `True` and the placeholder in `ADMIN_EMAIL` must be replaced with a valid email address for certbot installation
+
+### step4 Make the script executable
+
+```
+sudo chmod +x odoo_install.sh
+```
+
+### step5 Excecute the script
+
+```
+sudo ./odoo_install.sh
+```
+
+### step6 DNS config to point this VM IP
+
+e.g. A record : (foo.mydomain or *.foo.mydomain) v.s. VM IP
+
+
+
+### step7 start server
+
+Done! The Odoo server is up and running. Specifications:
+
+Port: 8069
+
+User service: odoo
+
+Configuraton file location: /etc/odoo-server.conf
+
+Logfile location: /var/log/odoo
+
+User PostgreSQL: odoo
+
+Code location: odoo
+
+Addons folder: odoo/odoo-server/addons/
+
+Password superadmin (database): myPassword
+
+Start Odoo service: sudo service odoo-server start
+
+Stop Odoo service: sudo service odoo-server stop
+
+Restart Odoo service: sudo service odoo-server restart
+
+Nginx configuration file: /etc/nginx/sites-available/odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site
+
+
+
+## 前置作業
+
+### step 0
+
+- GCP VM with ubuntu 20.04
+- Firewall settings (ssh http https) GCP 預設已開啟
+
+### step 1 ssh to VM
+
+[SSH 進 GCP 的 3 種方式](https://ithelp.ithome.com.tw/articles/10251134)
+
+使用方式 2 + 3 :
+
+- 先建立一組 key
+  `ssh-keygen -t rsa -f ~/.ssh/[KEY_FILENAME] -C [USERNAME]`
+  `ssh-keygen -t rsa -f ~/.ssh/gcpn01 -C gcpn01`
+- copy pub key and upload (CE -> settings -> 中繼資料 -> 安全殼層)
+  `cd ~/.ssh`
+  `cat gcpn01.pub`
+- 修改 ssh config
+  `vim ~/.ssh/config`
+
+  ```
+  Host gcpApache01            //自訂alias
+  HostName   14.19.17.13  //ip
+  Port 22                     //host SSH port
+  IdentitiesOnly yes          //指定key
+  IdentityFile ~/.ssh/gcpa01  // 指定pub key 路徑
+  User gcpa01                 //登入username，
+  ```
+
+透過 vscode remote 做 SSH 連線
+
+- os version
+
+```
+  lsb_release -a
+```
+
+- out bound ip
+
+```
+curl ifconfig.me
+```
+
+- 取得硬體資訊
+
+```
+sudo apt install neofetch
+```
+
+```
+neofetch
+```
+
+
+
+### step2 odoo config
+
+```
+[options]
+db_host=db
+db_user=odoo
+db_password=odoo
+db_db=postgres
+
+# plz check addons custom path and enterprise version path 
+addons_path=addons, odoo/addons, ../addons 
+
+# list_db = False
+
+# filter tutorial : https://richsoda.com/blog/odoo-1/post/hostname-14
+# dbfilter = ^%d$
+
+```
+
+
+
+## 後置作業
+
+### Certbot
+
+#### 使用筆記
+
+- 先找到 nginx config
+
+- 確認 include 的資料夾的位置
+
+  ```
+  預設 conf path : /etc/nginx/nginx.conf
+  ```
+
+  ```
+  
+  http {
+  
+  ...
+  
+  	##
+  	# Virtual Host Configs
+  	##
+  
+  	include /etc/nginx/conf.d/*.conf;
+  	include /etc/nginx/sites-enabled/*;
+  
+  ...
+  
+  }
+  
+  
+  
+  ```
+
+  
+
+- 在 sites-enabled/ 內新增一筆 conf  , 可參考以下 example or odoo official 
+
+  [System configuration — Odoo 16.0 documentation](https://www.odoo.com/documentation/16.0/administration/install/deploy.html#https)
+
+- DNS 設定 : domain name point to IP
+
+- 使用 Certbot 申請上面 domain 的 SSl 證書
+
+  Certbot tutorial : [How to Generate Let's Encrypt SSL using Certbot – TecAdmin](https://tecadmin.net/how-to-generate-lets-encrypt-ssl-using-certbot/)
+
+  
+
+#### example
+
+odoo nginx config with ssl
+
+```
+#odoo server
+upstream odoo {
+  server 127.0.0.1:8069;
+}
+upstream odoochat {
+  server 127.0.0.1:8072;
+}
+map $http_upgrade $connection_upgrade {
+  default upgrade;
+  ''      close;
+}
+
+# http -> https
+server {
+  listen 80;
+  server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
+  rewrite ^(.*) https://$host$1 permanent;
+}
+
+server {
+  listen 443 ssl;
+  server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
+  proxy_read_timeout 720s;
+  proxy_connect_timeout 720s;
+  proxy_send_timeout 720s;
+
+  # SSL parameters
+  ssl_certificate /etc/letsencrypt/live/odoo2.yongsin.site/fullchain.pem; # managed by Certbot
+  ssl_certificate_key /etc/letsencrypt/live/odoo2.yongsin.site/privkey.pem; # managed by Certbot
+  ssl_session_timeout 30m;
+  ssl_protocols TLSv1.2;
+  ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+  ssl_prefer_server_ciphers off;
+
+  # log
+  access_log /var/log/nginx/odoo.access.log;
+  error_log /var/log/nginx/odoo.error.log;
+
+  # Redirect websocket requests to odoo gevent port
+  location /websocket {
+    proxy_pass http://odoochat;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection $connection_upgrade;
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
+  }
+
+  # Redirect requests to odoo backend server
+  location / {
+    # Add Headers for odoo proxy mode
+    proxy_set_header X-Forwarded-Host $host;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_redirect off;
+    proxy_pass http://odoo;
+  }
+
+  # common gzip
+  gzip_types text/css text/scss text/plain text/xml application/xml application/json application/javascript;
+  gzip on;
+}
+```
+
