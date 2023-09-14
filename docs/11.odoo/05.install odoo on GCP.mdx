@@ -42,7 +42,17 @@ Step 6: Install Docker
 Step 7: Check Docker Status
 `sudo systemctl status docker`
 
-### step 3 clone odoo docker framework
+```shell
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-cache policy docker-ce
+sudo apt install docker-ce -y
+sudo systemctl status docker
+```
+
+## step 3 clone odoo docker framework
 
 [odoo docker framework](https://github.com/odoocker/odoocker)
 
@@ -127,7 +137,6 @@ ref : https://github.com/Yenthe666/InstallScript
 sudo wget https://raw.githubusercontent.com/Yenthe666/InstallScript/16.0/odoo_install.sh
 ```
 
-
 ### step 3 Modify the parameters as you wish
 
 - `OE_USER` will be the username for the system user.
@@ -158,9 +167,7 @@ sudo ./odoo_install.sh
 
 ### step6 DNS config to point this VM IP
 
-e.g. A record : (foo.mydomain or *.foo.mydomain) v.s. VM IP
-
-
+e.g. A record : (foo.mydomain or \*.foo.mydomain) v.s. VM IP
 
 ### step7 start server
 
@@ -189,8 +196,6 @@ Stop Odoo service: sudo service odoo-server stop
 Restart Odoo service: sudo service odoo-server restart
 
 Nginx configuration file: /etc/nginx/sites-available/odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site
-
-
 
 ## 前置作業
 
@@ -247,8 +252,6 @@ sudo apt install neofetch
 neofetch
 ```
 
-
-
 ### step2 odoo config
 
 ```
@@ -258,8 +261,8 @@ db_user=odoo
 db_password=odoo
 db_db=postgres
 
-# plz check addons custom path and enterprise version path 
-addons_path=addons, odoo/addons, ../addons 
+# plz check addons custom path and enterprise version path
+addons_path=addons, odoo/addons, ../addons
 
 # list_db = False
 
@@ -267,8 +270,6 @@ addons_path=addons, odoo/addons, ../addons
 # dbfilter = ^%d$
 
 ```
-
-
 
 ## 後置作業
 
@@ -285,29 +286,27 @@ addons_path=addons, odoo/addons, ../addons
   ```
 
   ```
-  
+
   http {
-  
+
   ...
-  
+
   	##
   	# Virtual Host Configs
   	##
-  
+
   	include /etc/nginx/conf.d/*.conf;
   	include /etc/nginx/sites-enabled/*;
-  
+
   ...
-  
+
   }
-  
-  
-  
+
+
+
   ```
 
-  
-
-- 在 sites-enabled/ 內新增一筆 conf  , 可參考以下 example or odoo official 
+- 在 sites-enabled/ 內新增一筆 conf , 可參考以下 example or odoo official
 
   [System configuration — Odoo 16.0 documentation](https://www.odoo.com/documentation/16.0/administration/install/deploy.html#https)
 
@@ -316,8 +315,6 @@ addons_path=addons, odoo/addons, ../addons
 - 使用 Certbot 申請上面 domain 的 SSl 證書
 
   Certbot tutorial : [How to Generate Let's Encrypt SSL using Certbot – TecAdmin](https://tecadmin.net/how-to-generate-lets-encrypt-ssl-using-certbot/)
-
-  
 
 #### example
 
@@ -389,4 +386,3 @@ server {
   gzip on;
 }
 ```
-
