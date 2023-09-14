@@ -125,7 +125,10 @@ ref : https://github.com/Yenthe666/InstallScript
 
 - 優點 : 所有東西都在 VM ，不會隔一層 container
 
-- 缺點 : vm 中的環境要保護好不能受到汙染 , 不能 multi domain , 需自已設定
+- 缺點 :
+  - vm 中的環境要保護好不能受到汙染
+  - 不能 multi domain , 需自已設定 nginx
+  - postgreSQL 預設是使用 root 創 db , 無密碼可直接連入 (需另外創使用者)
 
 ### 要求
 
@@ -157,6 +160,12 @@ sudo wget https://raw.githubusercontent.com/Yenthe666/InstallScript/16.0/odoo_in
 
 ```
 sudo chmod +x odoo_install.sh
+```
+
+or
+
+```
+sudo chmod 777 odoo_install.sh
 ```
 
 ### step5 Excecute the script
