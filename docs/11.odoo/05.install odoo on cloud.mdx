@@ -457,7 +457,7 @@ e.g. [caprover/captain-sample-apps at master · caprover/caprover (github.com)](
 
 [Build, Test and Deploy from GitHub · CapRover](https://caprover.com/docs/ci-cd-integration/deploy-from-github.html#deploying-directly-from-github)
 
-
+使用心得可參考最底部 : 後置作業 - CapRover deploy by github CICD 
 
 #### Method 4: Deploy plain Dockerfile
 
@@ -730,5 +730,95 @@ server {
   gzip_types text/css text/scss text/plain text/xml application/xml application/json application/javascript;
   gzip on;
 }
+```
+
+-
+
+## CapRover deploy by github CICD 
+
+- 專案需要寫一份 dockerfile
+
+- github repository 需四個 secret  (setting > security > secrets and variables > actions > 右上 New repository secret )
+
+  - APP_NAME (caprover 的 app name)
+
+  - *APP_TOKEN* (caprover 的 app TOKEN)
+
+  - CAPROVER_SERVER  in the format of  [https://captain.apps.your-domain.com](https://captain.apps.your-domain.com/)
+
+  - GH_TOKEN : Github personal token with **write permission for packages**
+
+    這樣我們才能在  Login to Container Registry 後有權限可以寫入自已的 image 到 ghcr
+
+- CapRover 的 server 上需要加 ghcr 的權限，才能讓 app deploy 的時候有權限抓 ghcr 上的 image
+
+  [Deploy via ImageName · caprover/caprover · Discussion #1602 (github.com)](https://github.com/caprover/caprover/discussions/1602)
+
+  - Make sure to use a [Personal Token](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token#creating-a-personal-access-token-classic) as password.
+
+  - After adding the registry, make sure to mark Default Push Registry as "DISABLE"
+
+    如果只有一個 server , 可以用 DISABLE ，有串接多個 server 需要仔細評估
+
+  
+
+.github/workflows/deploy.yml 如下
+
+```
+name: Build and Deploy Docker Image
+
+on:
+  push:
+    branches: ['master']
+
+  pull_request:
+    branches: ['master']
+
+  # 允許你從 Action 頁簽上手動執行 workflow
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    	 # Check out repository
+      - name: Check out repository
+        uses: actions/checkout@v2
+        
+		# Set up Docker Buildx
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+		
+		# Login to Container Registry
+      - name: Login to Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GH_TOKEN }}
+		
+		# Preset Image Name
+      - name: Preset Image Name
+        run: echo "IMAGE_URL=$(echo ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$(echo ${{ github.sha }} | cut -c1-7) | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
+		
+		# Build and push Docker Image
+      - name: Build and push Docker Image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ env.IMAGE_URL }}
+		
+		# Deploy Image to CapRover
+      - name: Deploy Image to CapRrover
+        uses: caprover/deploy-from-github@v1.1.2
+        with:
+          server: '${{ secrets.CAPROVER_SERVER }}'
+          app: '${{ secrets.APP_NAME }}'
+          token: '${{ secrets.APP_TOKEN }}'
+          image: ${{ env.IMAGE_URL }}
+
 ```
 
