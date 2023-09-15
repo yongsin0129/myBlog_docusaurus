@@ -22,25 +22,50 @@ ref : https://github.com/odoocker/odoocker
 [How To Install Docker on Ubuntu 20.04](https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04)
 
 Step 1: Update the Package Repository
-`sudo apt update`
+
+```
+sudo apt update
+```
 
 Step 2: Install Prerequisite Packages
-`sudo apt install apt-transport-https ca-certificates curl software-properties-common -y`
+
+````
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+````
 
 Step 3: Add GPG Key
-`curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -`
+
+````
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+````
 
 Step 4: Add Docker Repository
-`sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"`
+
+```
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
 
 Step 5: Specify Installation Source
-`apt-cache policy docker-ce`
+
+```
+apt-cache policy docker-ce
+```
 
 Step 6: Install Docker
-`sudo apt install docker-ce -y`
+
+```
+sudo apt install docker-ce -y
+```
 
 Step 7: Check Docker Status
-`sudo systemctl status docker`
+
+````
+sudo systemctl status docker
+````
+
+
+
+all in one
 
 ```shell
 sudo apt update
@@ -206,6 +231,138 @@ Restart Odoo service: sudo service odoo-server restart
 
 Nginx configuration file: /etc/nginx/sites-available/odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site
 
+## Method 3 : vm using caprover
+
+[CapRover tech. doc.](https://caprover.com/docs/get-started.html)
+
+### 要求
+
+1. 完成前置作業，能 ssh 進入 vm
+
+2. 完成 caprover prerequisites
+
+   [Getting Started prequisites· CapRover](https://caprover.com/docs/get-started.html#prerequisites)
+
+   1. public ip (check vm static external ip) 
+   2. 有自已的 Domain Name (指向 public ip)
+   3. check server specs
+   4. install docker in vm for installing caprover image
+   5. check firewall both cloud provider and vm ufw
+
+### CapRover Setup
+
+如果是需要 restored Caprover ，不要執行 step1 ，參考底下的補充
+
+### step1 CapRover Installation
+
+```
+docker run -p 80:80 -p 443:443 -p 3000:3000 -e ACCEPTED_TERMS=true -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover
+```
+
+NOTE: do not change the port mappings. CapRover only works on the specified ports.
+
+
+
+設定 CapRover : http://[IP_OF_YOUR_SERVER]:3000
+
+- CapRover Root Domain Configurations : 連結 nginx domain
+
+- 修改密碼 : default password `captain42`
+
+- 使用 let`s encript 做 ssl 認證
+- 進入設定頁面的連結 (開頭加 captain): `http or https ://captain.randomString.yourdomain` 
+
+### step2 Connect Root Domain (如同前置要求2-2)
+
+- **TYPE**: A record
+- **HOST**: `*.something`
+- **POINTS TO**: (IP Address of your server)
+- **TTL**: (doesn't really matter)
+
+確認 domain 已經綁定 IP : https://mxtoolbox.com/DNSLookup.aspx
+
+e.g. using lookup to check `www.randomString.yourdomain`
+
+
+
+You can read more about hiding the root domain [here](https://caprover.com/docs/best-practices.html#hidden-root-domain).
+
+進行到這邊已經可以做 deploy 了 !!
+
+### step3  Install CapRover CLI
+
+```
+sudo apt install npm
+```
+
+```
+sudo npm install -g caprover
+```
+
+```
+ caprover serversetup
+```
+
+如果 step 1 有進入 CapRover : http://[IP_OF_YOUR_SERVER]:3000 做設定，就不需要執行 ` caprover serversetup` 
+
+### step4 (Optional) Set up Swap file
+
+In some cases you may run into problems due to not having enough physical RAM.
+
+[Getting Started - Set up Swap file· CapRover](https://caprover.com/docs/get-started.html#step-4-optional-set-up-swap-file)
+
+
+
+### Step 5: Deploy the Test App
+
+使用 `caprover deploy` or web UI one-click install 做測試
+
+
+
+### 補充
+
+#### 備分及還原
+
+[Backup & Restore · CapRover](https://caprover.com/docs/backup-and-restore.html)
+
+1. caprover UI 有 button 可以 backup .tar 檔案
+
+2. 還原時需要在還沒有安裝 caprover image 之前
+
+   *(replace 123.123.123.123 with your server IP in instructions below)*
+
+   1. Create an empty `/captain` directory on your server by running
+      `ssh root@123.123.123.123 mkdir /captain` (記得使用相應的 user 創資料夾，不然沒有寫入的權限，需另外 chmod 666)
+
+   2. Rename your desired backup file to `backup.tar` on your desktop.
+
+   3. Copy `backup.tar` to server:
+      `scp ./backup.tar root@123.123.123.123:/captain/`
+
+   4. Install CapRover:
+
+      ```
+      docker run -p 80:80 -p 443:443 -p 3000:3000 -e ACCEPTED_TERMS=true -v /var/run/docker.sock:/var/run/docker.sock -v /captain:/captain caprover/caprover
+      ```
+
+      CapRover will automatically detect your `backup.tar`, extract it and restores all your configs and settings.
+
+   5. You need to configure your DNS such that `*.youroldroot.domain.com` points to the new server IP.
+
+#### stop and remove catpain
+
+[How to stop and remove captain? · Issue #12 · caprover/caprover (github.com)](https://github.com/caprover/caprover/issues/12)
+
+```
+docker service rm $(docker service ls -q)
+
+docker swarm leave --force
+```
+
+
+
+
+
 ## 前置作業
 
 ### step 0
@@ -261,25 +418,6 @@ sudo apt install neofetch
 neofetch
 ```
 
-### step2 odoo config
-
-```
-[options]
-db_host=db
-db_user=odoo
-db_password=odoo
-db_db=postgres
-
-# plz check addons custom path and enterprise version path
-addons_path=addons, odoo/addons, ../addons
-
-# list_db = False
-
-# filter tutorial : https://richsoda.com/blog/odoo-1/post/hostname-14
-# dbfilter = ^%d$
-
-```
-
 ## 後置作業
 
 ### Certbot
@@ -310,6 +448,7 @@ addons_path=addons, odoo/addons, ../addons
   ...
 
   }
+  ```
 
 
 
@@ -329,8 +468,31 @@ addons_path=addons, odoo/addons, ../addons
 
 odoo nginx config with ssl
 
+  ```
+### odoo app config
+
 ```
-#odoo server
+[options]
+db_host=db
+db_user=odoo
+db_password=odoo
+db_db=postgres
+
+# plz check addons custom path and enterprise version path
+addons_path=addons, odoo/addons, ../addons
+
+# list_db = False
+
+# filter tutorial : https://richsoda.com/blog/odoo-1/post/hostname-14
+# dbfilter = ^%d$
+
+```
+
+
+
+### odoo nginx config
+
+```
 upstream odoo {
   server 127.0.0.1:8069;
 }
@@ -343,6 +505,7 @@ map $http_upgrade $connection_upgrade {
 }
 
 # http -> https
+
 server {
   listen 80;
   server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
@@ -357,6 +520,7 @@ server {
   proxy_send_timeout 720s;
 
   # SSL parameters
+
   ssl_certificate /etc/letsencrypt/live/odoo2.yongsin.site/fullchain.pem; # managed by Certbot
   ssl_certificate_key /etc/letsencrypt/live/odoo2.yongsin.site/privkey.pem; # managed by Certbot
   ssl_session_timeout 30m;
@@ -365,10 +529,12 @@ server {
   ssl_prefer_server_ciphers off;
 
   # log
+
   access_log /var/log/nginx/odoo.access.log;
   error_log /var/log/nginx/odoo.error.log;
 
   # Redirect websocket requests to odoo gevent port
+
   location /websocket {
     proxy_pass http://odoochat;
     proxy_set_header Upgrade $http_upgrade;
@@ -380,6 +546,7 @@ server {
   }
 
   # Redirect requests to odoo backend server
+
   location / {
     # Add Headers for odoo proxy mode
     proxy_set_header X-Forwarded-Host $host;
@@ -391,7 +558,9 @@ server {
   }
 
   # common gzip
+
   gzip_types text/css text/scss text/plain text/xml application/xml application/json application/javascript;
   gzip on;
 }
 ```
+
