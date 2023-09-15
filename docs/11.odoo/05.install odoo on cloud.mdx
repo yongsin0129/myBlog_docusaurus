@@ -359,7 +359,175 @@ docker service rm $(docker service ls -q)
 docker swarm leave --force
 ```
 
+#### docker volumn 
 
+##### Using label
+
+In that case, they will be placed in `/var/lib/docker/volumes/YOUR_VOLUME_NAME/_data` on your server. The path inside the container is completely customizable.
+
+##### Using specific path
+
+For example, you can map `/var/usr` on your server to `/my-host-usr-something` in your container (app). 
+
+This way you can save a file in your container at `/my-host-usr-something/myfile.txt` and the file will be available on your server (host) at `/var/usr/myfile.txt`. 
+
+**Note** that, if you choose to use this option (specifying a specific host path), you'll have to make sure that the path already exists in your host before assigning it.
+
+
+
+caprover odoo instance 有三個 volumn
+
+- /var/lib/odoo 放置 web file ( sessions , filestore) 
+- /etc/odoo : 放置 config
+- /mnt/extra-addons : 放置 custom addons
+
+
+
+##### 使用心得
+
+可使用兩個不同的 odoo instance  ( 一個給 admin 一個給 customer)，指定同一個 DB 、addons 及 web file ，但使用不同的 config 。
+
+custom conf，使用 dbfilter 切 db ，使用 list_db = True 藏 DB。
+
+admin instance 可以在 captain web UI 設定打開 web auth 加強保護。
+
+
+
+### ssh container 
+
+使用一個可提供 ssh 連線的 container 來做跳板，在 local 端可以連入 captain network 裡面的 DB
+
+[Database Connection · CapRover](https://caprover.com/docs/database-connection.html#external-connections)
+
+1. 使用 one-click 安裝一個 ssh container
+
+2. 使用指令建立一條 ssh local port forward
+
+   ```
+   ssh -L 8181:srv-captain--odoo3-1-db:5432 yongsin0129@35.234.38.229 -p 4646 -i ~/.ssh/yongsin0129
+   ```
+
+   - ssh container 預設 port 4646
+   - postgreSQL 預設 port 5432
+
+3. 注意要將 ssh container 的 轉發打開才能當跳板。
+
+   ```
+   sudo vi /config/ssh_host_keys/sshd_config
+   ```
+
+   ```
+   AllowTcpForwarding yes
+   GatewayPorts yes
+   ```
+
+4. 重啟 container : 使用 captain web UI restart
+
+
+
+### Deploy
+
+前言 :      !!!!!   工作目錄必需要有 captain-definition 檔案
+
+#### Method 1: Official CLI
+
+[Getting Started Deploy the Test App · CapRover](https://caprover.com/docs/get-started.html#step-5-deploy-the-test-app)
+
+```
+ caprover login
+```
+
+```
+/home/Desktop/captain-examples/captain-node$  caprover deploy
+```
+
+就會啟動自動選項開始建立 deploy 流程
+
+#### 
+
+#### Method 2: Tarball
+
+e.g. [caprover/captain-sample-apps at master · caprover/caprover (github.com)](https://github.com/caprover/caprover/tree/master/captain-sample-apps)
+
+上傳 .tar  ( 記得目錄要有 captain-definition ) 啟動 deploy
+
+
+
+#### Method 3: Deploy from Github/Bitbucket/Gitlab
+
+[Build, Test and Deploy from GitHub · CapRover](https://caprover.com/docs/ci-cd-integration/deploy-from-github.html#deploying-directly-from-github)
+
+
+
+#### Method 4: Deploy plain Dockerfile
+
+e.g.
+
+```
+# 使用 nginx 映像作為基礎
+FROM nginx
+
+# 複製本地主機的 Nginx 配置文件到容器中的對應位置
+# COPY nginx.conf /etc/nginx/nginx.conf
+
+# 開放容器的 80 端口
+EXPOSE 80
+
+# 使用 CMD 命令啟動 nginx 服務
+CMD ["nginx", "-g", "daemon off;"]
+
+```
+
+
+
+#### Method 5: Deploy captain-definition file
+
+[Captain Definition File · CapRover](https://caprover.com/docs/captain-definition-file.html)
+
+example :
+
+```
+ {
+  "schemaVersion": 2,
+  "templateId": "node/8.7.0"
+ }
+```
+
+```
+ {
+  "schemaVersion": 2,
+  "dockerfileLines": [
+                        "FROM node:8.7.0-alpine",
+                        "RUN mkdir -p /usr/src/app",
+                        "WORKDIR /usr/src/app",
+                        "COPY ./package.json /usr/src/app/",
+                        "RUN npm install && npm cache clean --force",
+                        "COPY ./ /usr/src/app",
+                        "ENV NODE_ENV production",
+                        "ENV PORT 80",
+                        "EXPOSE 80",
+                        "CMD [ \"npm\", \"start\" ]"
+                    ]
+ }
+```
+
+```
+ {
+  "schemaVersion": 2,
+  "dockerfilePath": "./Dockerfile"
+ }
+```
+
+```
+ {
+  "schemaVersion": 2,
+  "imageName": "nginxdemos/hello"
+ }
+```
+
+[Captain Definition File For Monorepo](https://caprover.com/docs/captain-definition-file.html#monorepo)
+
+#### Method 6: Deploy via ImageName
 
 
 
