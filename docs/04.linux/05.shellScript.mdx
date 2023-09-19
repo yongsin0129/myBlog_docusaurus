@@ -1,0 +1,282 @@
+---
+sidebar_label: shellScript
+sidebar_position: 5
+---
+
+## 快速開始
+
+### echo hello world
+
+hello.sh
+
+```shell
+echo hello world
+```
+
+### 執行檔案
+
+```shell
+chmod -R 777 folderName/
+
+or
+
+chmod 777 fileName
+
+then ./hello.sh
+```
+
+### 寫入 log
+
+```
+echo "hello world" >> ./log.txt
+```
+
+## 變數
+
+```shell
+#!/bin/bash
+
+# 若是值內有空白則需要使用 '' 或 "" 包裹起來
+variable1=value
+variable2='value 2'
+variable3="value 3"
+
+# 使用
+echo ${variable3}
+
+# 更新 : 更新變數直接重新 assign 值即可
+variable3="value 3333"
+
+# 刪除
+unset variable3
+
+```
+
+P.S. 使用環境變數
+
+```
+export <NAME>='<value>'
+
+export SANDWICH='Pepper And Egg'
+
+printenv SANDWICH
+```
+
+REF : [How to List, Set and Manage Linux Environment Variables | Cherry Servers](https://www.cherryservers.com/blog/how-to-set-list-and-manage-linux-environment-variables#2-how-to-set-linux-environment-variables)
+
+## 運算式
+
+```shell
+#!/bin/bash
+
+result=`expr 10 + 2`
+
+# 12
+echo "Result: $result"
+```
+
+## 條件判斷
+
+### if
+
+```shell
+#!/bin/sh
+
+x=20
+y=30
+
+if [ $x == $y ]; then
+   echo "value x is equal to value y"
+fi
+
+if [ $x != $y ]; then
+   echo "value x is not equal to value y"
+fi
+```
+
+### if else
+
+```shell
+#!/bin/bash
+
+if [ $x -gt $y ]; then
+   echo "value x is greater than value y"
+else
+   echo "value x is not greater than value y"
+fi
+
+if [ $x -lt $y ]; then
+   echo "value x is not less than value y"
+else
+   echo "value x is not less than value y"
+fi
+
+if [ $x -ge $y ]; then
+   echo "value x is greater or equal than value y"
+else
+   echo "value x is not greater than value y"
+fi
+
+if [ $x -le $y ]; then
+   echo "value x is not less or equal than value y"
+else
+   echo "value x is not less or equal than value y"
+fi
+```
+
+### if elif else
+
+```shell
+#!/bin/bash
+
+value1=20
+value2=30
+value3=30
+
+if [ $value1 -gt $value2 ]; then
+   echo "value1 is greater than value2"
+elif [ $value1 == $value3 ]; then
+   echo "value1 is equal to value3"
+else
+   echo "other result"
+fi
+```
+
+### case ... esac
+
+```shell
+#!/bin/bash
+
+language='Java'
+
+case $language in
+    Java*) echo "是 Java！"
+            ;;
+    Python*) echo "是 Python！"
+            ;;
+    C*)     echo "是 C！"
+            ;;
+    *)      echo "沒 match 到！"
+esac
+```
+
+## 函式
+
+1. 函式名稱（`function` 關鍵字為選擇性）
+2. 是否有傳入參數
+3. 函式內操作
+4. 是否有回傳值
+
+```shell
+#!/bin/bash
+
+function echoHello() {
+    # hello world, rock!!
+    echo "${0} hello ${1}, ${2}!!"
+}
+
+echoHello 'world' 'rock'
+
+```
+
+以上我們可以看到使用 "" 雙引號把字串和變數取出來印出（你可以試試看使用單引號會發生什麼事情），與一般程式語言比較不同的是其函式呼叫不需要有小括號傳入參數，直接以空白當作參數傳遞的格式。注意參數從 1 開始，${0} 為檔名。
+
+## 範例
+
+### odoo db auto_backup
+
+```shell
+#!/bin/bash
+
+# vars
+DATE_NOW=$(TZ='Asia/Taipei' date "+%Y%m%d_%H_%M_%S")
+WEBSITE_HOST_NAME=yongsin.site
+ADMIN_PASSWORD=$ODOO_DB_PASSWORD
+ODOO_DATABASE=test1
+BACKUP_DIR=/home/yongsin0129/backup
+
+echo $DATE_NOW
+# functions
+function create_a_backup() {
+    curl -X POST \
+        -F "master_pwd=${ADMIN_PASSWORD}" \
+        -F "name=${ODOO_DATABASE}" \
+        -F "backup_format=zip" \
+        -o ${BACKUP_DIR}/${ODOO_DATABASE}_${DATE_NOW}.zip \
+        https://${WEBSITE_HOST_NAME}/web/database/backup
+}
+
+# create a backup directory
+mkdir -p ${BACKUP_DIR}
+
+# create a backup
+if create_a_backup
+    then echo "DB:$ODOO_DATABASE Back up was successful $DATE_NOW" >> ${BACKUP_DIR}/.log.txt
+    else echo "DB:$ODOO_DATABASE Back up Failed !!! $DATE_NOW" >> ${BACKUP_DIR}/.log.txt
+fi
+
+# delete old backups
+find ${BACKUP_DIR} -type f -mtime +7 -name "${ODOO_DATABASE}.*.zip" -delete
+
+
+```
+
+## cronJob
+
+```shell
+# 查看自己的 crontab
+crontab -l
+
+# 編輯 crontab 內容
+crontab -e
+
+# 刪除 crontab 內容
+crontab -r
+
+# ┌───────────── 分鐘   (0 - 59)
+# │ ┌─────────── 小時   (0 - 23)
+# │ │ ┌───────── 日     (1 - 31)
+# │ │ │ ┌─────── 月     (1 - 12)
+# │ │ │ │ ┌───── 星期幾 (0 - 7，0 是週日，6 是週六，7 也是週日)
+# │ │ │ │ │
+# * * * * * /path/to/command
+
+# 每天早上 8 點 30 分執行
+30 08 * * * /home/gtwang/script.sh --your --parameter
+
+# 每週日下午 6 點 30 分執行
+30 18 * * 0 /home/gtwang/script.sh --your --parameter
+
+# 每週日下午 6 點 30 分執行
+30 18 * * Sun /home/gtwang/script.sh --your --parameter
+
+# 每年 6 月 10 日早上 8 點 30 分執行
+30 08 10 06 * /home/gtwang/script.sh --your --parameter
+
+# 每月 1 日、15 日、29 日晚上 9 點 30 分各執行一次
+30 21 1,15,29 * * /home/gtwang/script.sh --your --parameter
+
+# 每隔 10 分鐘執行一次
+*/10 * * * * /home/gtwang/script.sh --your --parameter
+
+# 從早上 9 點到下午 6 點，凡遇到整點就執行
+00 09-18 * * * /home/gtwang/script.sh --your --parameter
+```
+
+[Linux 設定 crontab 例行性工作排程教學與範例](https://blog.gtwang.org/linux/linux-crontab-cron-job-tutorial-and-examples/)
+
+## 參考資料
+
+[小弟調調 Shell Tutorial (wangchujiang.com)](https://wangchujiang.com/shell-tutorial/#contributors)
+
+[簡明 Linux Shell Script 入門教學 (techbridge.cc)](https://blog.techbridge.cc/2019/11/15/linux-shell-script-tutorial/)
+
+[How to List, Set and Manage Linux Environment Variables | Cherry Servers](https://www.cherryservers.com/blog/how-to-set-list-and-manage-linux-environment-variables#2-how-to-set-linux-environment-variables)
+
+[[Date Command in Linux | Linuxize](https://linuxize.com/post/linux-date-command/)]
+
+[How to Setup Automatic Odoo Backup | Linuxize](https://linuxize.com/post/how-to-setup-automatic-odoo-backup/)
+
+[Bash 中的 try/catch - Yowko's Notes](https://blog.yowko.com/bash-try-catch/)
+
+[bash - How to check if curl was successful and print a message? - Stack Overflow](https://stackoverflow.com/questions/38905489/how-to-check-if-curl-was-successful-and-print-a-message)
