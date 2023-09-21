@@ -1,0 +1,81 @@
+---
+sidebar_label: docker-swarm
+sidebar_position: 9
+---
+
+[swarm](https://docs.docker.com/engine/reference/commandline/swarm/)
+
+[service](https://docs.docker.com/engine/reference/commandline/service/)
+
+## 介紹
+
+可以把 docker-swarm 想像成簡單版的 k8s ，做 cluster 管理
+
+透過 `docker swarm init` 可以建立一個 manager ，然後透過以下的 CLI 讓其他 VM 加入 cluster , 當一個 worker
+
+所有 manager 等級的指令還是必須在 manager 的 VM 才有作用
+
+```shell
+    docker swarm join \
+    --token SWMTKN-1-3pu6hszjas19xyp7ghgosyx9k8atbfcr8p2is99znpy26u2lkl-1awxwuwd3z9j1z3puu7rcgdbx \
+    172.17.0.2:2377
+```
+
+有了 manager 之後，可以用 docker service create 來建立 service
+
+可以想像一個 service 就會起一個 container (--replicas=1 的情況下)
+
+也可以用 docker stack 來快速起好幾個 docker service (類似 docker compose)
+
+## docker service
+
+docker service create --name {nginx11} -p 8080:80 nginx
+
+docker service ls
+
+## docker service update
+
+docker service update [OPTIONS] SERVICE
+
+### --monut
+
+- --mount-add
+
+```shell
+docker service update \
+  --mount-add type=bind,source=/home/nginx,target=/etc/nginx \
+  {nginx11}
+```
+
+```shell
+- --mount-rm
+docker service update --mount-rm /etc/nginx {nginx11}
+```
+
+### --replicas
+
+```shell
+docker service update --replicas=2 {nginx11}
+```
+
+### --entrypoint
+
+```shell
+docker service update --entrypoint "nginx-debug -g 'daemon off;'" {nginx11}
+# recover:
+docker service update --entrypoint "" {nginx11}
+```
+
+## logs and inspect
+
+```shell
+docker service logs -f {nginx11};
+docker service inspect {nginx11};
+```
+
+## roll back
+
+```shell
+docker service rollback {my-service}
+docker service rollback {nginx11}
+```
