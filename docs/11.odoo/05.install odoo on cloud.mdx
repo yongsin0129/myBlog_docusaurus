@@ -29,15 +29,15 @@ sudo apt update
 
 Step 2: Install Prerequisite Packages
 
-````
+```
 sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
-````
+```
 
 Step 3: Add GPG Key
 
-````
+```
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-````
+```
 
 Step 4: Add Docker Repository
 
@@ -59,11 +59,9 @@ sudo apt install docker-ce -y
 
 Step 7: Check Docker Status
 
-````
+```
 sudo systemctl status docker
-````
-
-
+```
 
 all in one
 
@@ -243,7 +241,7 @@ Nginx configuration file: /etc/nginx/sites-available/odoo2.yongsin.site www.odoo
 
    [Getting Started prequisites· CapRover](https://caprover.com/docs/get-started.html#prerequisites)
 
-   1. public ip (check vm static external ip) 
+   1. public ip (check vm static external ip)
    2. 有自已的 Domain Name (指向 public ip)
    3. check server specs
    4. install docker in vm for installing caprover image
@@ -261,8 +259,6 @@ docker run -p 80:80 -p 443:443 -p 3000:3000 -e ACCEPTED_TERMS=true -v /var/run/d
 
 NOTE: do not change the port mappings. CapRover only works on the specified ports.
 
-
-
 設定 CapRover : http://[IP_OF_YOUR_SERVER]:3000
 
 - CapRover Root Domain Configurations : 連結 nginx domain
@@ -270,9 +266,9 @@ NOTE: do not change the port mappings. CapRover only works on the specified port
 - 修改密碼 : default password `captain42`
 
 - 使用 let`s encript 做 ssl 認證
-- 進入設定頁面的連結 (開頭加 captain): `http or https ://captain.randomString.yourdomain` 
+- 進入設定頁面的連結 (開頭加 captain): `http or https ://captain.randomString.yourdomain`
 
-### step2 Connect Root Domain (如同前置要求2-2)
+### step2 Connect Root Domain (如同前置要求 2-2)
 
 - **TYPE**: A record
 - **HOST**: `*.something`
@@ -283,13 +279,11 @@ NOTE: do not change the port mappings. CapRover only works on the specified port
 
 e.g. using lookup to check `www.randomString.yourdomain`
 
-
-
 You can read more about hiding the root domain [here](https://caprover.com/docs/best-practices.html#hidden-root-domain).
 
 進行到這邊已經可以做 deploy 了 !!
 
-### step3  Install CapRover CLI
+### step3 Install CapRover CLI
 
 ```
 sudo apt install npm
@@ -303,7 +297,7 @@ sudo npm install -g caprover
  caprover serversetup
 ```
 
-如果 step 1 有進入 CapRover : http://[IP_OF_YOUR_SERVER]:3000 做設定，就不需要執行 ` caprover serversetup` 
+如果 step 1 有進入 CapRover : http://[IP_OF_YOUR_SERVER]:3000 做設定，就不需要執行 ` caprover serversetup`
 
 ### step4 (Optional) Set up Swap file
 
@@ -311,13 +305,9 @@ In some cases you may run into problems due to not having enough physical RAM.
 
 [Getting Started - Set up Swap file· CapRover](https://caprover.com/docs/get-started.html#step-4-optional-set-up-swap-file)
 
-
-
 ### Step 5: Deploy the Test App
 
 使用 `caprover deploy` or web UI one-click install 做測試
-
-
 
 ### 補充
 
@@ -329,7 +319,7 @@ In some cases you may run into problems due to not having enough physical RAM.
 
 2. 還原時需要在還沒有安裝 caprover image 之前
 
-   *(replace 123.123.123.123 with your server IP in instructions below)*
+   _(replace 123.123.123.123 with your server IP in instructions below)_
 
    1. Create an empty `/captain` directory on your server by running
       `ssh root@123.123.123.123 mkdir /captain` (記得使用相應的 user 創資料夾，不然沒有寫入的權限，需另外 chmod 666)
@@ -359,7 +349,7 @@ docker service rm $(docker service ls -q)
 docker swarm leave --force
 ```
 
-#### docker volumn 
+#### docker volumn
 
 ##### Using label
 
@@ -367,33 +357,27 @@ In that case, they will be placed in `/var/lib/docker/volumes/YOUR_VOLUME_NAME/_
 
 ##### Using specific path
 
-For example, you can map `/var/usr` on your server to `/my-host-usr-something` in your container (app). 
+For example, you can map `/var/usr` on your server to `/my-host-usr-something` in your container (app).
 
-This way you can save a file in your container at `/my-host-usr-something/myfile.txt` and the file will be available on your server (host) at `/var/usr/myfile.txt`. 
+This way you can save a file in your container at `/my-host-usr-something/myfile.txt` and the file will be available on your server (host) at `/var/usr/myfile.txt`.
 
 **Note** that, if you choose to use this option (specifying a specific host path), you'll have to make sure that the path already exists in your host before assigning it.
 
-
-
 caprover odoo instance 有三個 volumn
 
-- /var/lib/odoo 放置 web file ( sessions , filestore) 
+- /var/lib/odoo 放置 web file ( sessions , filestore)
 - /etc/odoo : 放置 config
 - /mnt/extra-addons : 放置 custom addons
 
-
-
 ##### 使用心得
 
-可使用兩個不同的 odoo instance  ( 一個給 admin 一個給 customer)，指定同一個 DB 、addons 及 web file ，但使用不同的 config 。
+可使用兩個不同的 odoo instance ( 一個給 admin 一個給 customer)，指定同一個 DB 、addons 及 web file ，但使用不同的 config 。
 
 custom conf，使用 dbfilter 切 db ，使用 list_db = True 藏 DB。
 
 admin instance 可以在 captain web UI 設定打開 web auth 加強保護。
 
-
-
-### ssh container 
+### ssh container
 
 使用一個可提供 ssh 連線的 container 來做跳板，在 local 端可以連入 captain network 裡面的 DB
 
@@ -423,11 +407,9 @@ admin instance 可以在 captain web UI 設定打開 web auth 加強保護。
 
 4. 重啟 container : 使用 captain web UI restart
 
-
-
 ### Deploy
 
-前言 :      !!!!!   工作目錄必需要有 captain-definition 檔案
+前言 : !!!!! 工作目錄必需要有 captain-definition 檔案
 
 #### Method 1: Official CLI
 
@@ -443,21 +425,19 @@ admin instance 可以在 captain web UI 設定打開 web auth 加強保護。
 
 就會啟動自動選項開始建立 deploy 流程
 
-#### 
+####
 
 #### Method 2: Tarball
 
 e.g. [caprover/captain-sample-apps at master · caprover/caprover (github.com)](https://github.com/caprover/caprover/tree/master/captain-sample-apps)
 
-上傳 .tar  ( 記得目錄要有 captain-definition ) 啟動 deploy
-
-
+上傳 .tar ( 記得目錄要有 captain-definition ) 啟動 deploy
 
 #### Method 3: Deploy from Github/Bitbucket/Gitlab
 
 [Build, Test and Deploy from GitHub · CapRover](https://caprover.com/docs/ci-cd-integration/deploy-from-github.html#deploying-directly-from-github)
 
-使用心得可參考最底部 : 後置作業 - CapRover deploy by github CICD 
+使用心得可參考最底部 : 後置作業 - CapRover deploy by github CICD
 
 #### Method 4: Deploy plain Dockerfile
 
@@ -477,8 +457,6 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 ```
-
-
 
 #### Method 5: Deploy captain-definition file
 
@@ -525,8 +503,6 @@ example :
  }
 ```
 
-
-
 [Captain Definition File For Monorepo](https://caprover.com/docs/captain-definition-file.html#monorepo)
 
 #### Method 6: Deploy via ImageName
@@ -534,8 +510,6 @@ example :
 ```
 nginxdemos/hello:latest
 ```
-
-
 
 ## 前置作業
 
@@ -624,7 +598,7 @@ neofetch
   }
   ```
 
-
+  ```
 
   ```
 
@@ -638,14 +612,13 @@ neofetch
 
   Certbot tutorial : [How to Generate Let's Encrypt SSL using Certbot – TecAdmin](https://tecadmin.net/how-to-generate-lets-encrypt-ssl-using-certbot/)
 
-#### example
+### example
 
 odoo nginx config with ssl
 
-  ```
-### odoo app config
+#### odoo app config
 
-```
+```editorconfig
 [options]
 db_host=db
 db_user=odoo
@@ -653,108 +626,109 @@ db_password=odoo
 db_db=postgres
 
 # plz check addons custom path and enterprise version path
+
 addons_path=addons, odoo/addons, ../addons
 
 # list_db = False
 
 # filter tutorial : https://richsoda.com/blog/odoo-1/post/hostname-14
+
 # dbfilter = ^%d$
 
 ```
 
+#### odoo nginx config
 
+```apacheconf
 
-### odoo nginx config
-
-```
 upstream odoo {
-  server 127.0.0.1:8069;
+server 127.0.0.1:8069;
 }
 upstream odoochat {
-  server 127.0.0.1:8072;
+server 127.0.0.1:8072;
 }
 map $http_upgrade $connection_upgrade {
-  default upgrade;
-  ''      close;
+default upgrade;
+'' close;
 }
 
 # http -> https
 
 server {
-  listen 80;
-  server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
-  rewrite ^(.*) https://$host$1 permanent;
+listen 80;
+server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
+rewrite ^(.\*) https://$host$1 permanent;
 }
 
 server {
-  listen 443 ssl;
-  server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
-  proxy_read_timeout 720s;
-  proxy_connect_timeout 720s;
-  proxy_send_timeout 720s;
+listen 443 ssl;
+server_name odoo2.yongsin.site www.odoo2.yongsin.site odoo3.yongsin.site;
+proxy_read_timeout 720s;
+proxy_connect_timeout 720s;
+proxy_send_timeout 720s;
 
-  # SSL parameters
+# SSL parameters
 
-  ssl_certificate /etc/letsencrypt/live/odoo2.yongsin.site/fullchain.pem; # managed by Certbot
-  ssl_certificate_key /etc/letsencrypt/live/odoo2.yongsin.site/privkey.pem; # managed by Certbot
-  ssl_session_timeout 30m;
-  ssl_protocols TLSv1.2;
-  ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
-  ssl_prefer_server_ciphers off;
+ssl_certificate /etc/letsencrypt/live/odoo2.yongsin.site/fullchain.pem; # managed by Certbot
+ssl_certificate_key /etc/letsencrypt/live/odoo2.yongsin.site/privkey.pem; # managed by Certbot
+ssl_session_timeout 30m;
+ssl_protocols TLSv1.2;
+ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;
+ssl_prefer_server_ciphers off;
 
-  # log
+# log
 
-  access_log /var/log/nginx/odoo.access.log;
-  error_log /var/log/nginx/odoo.error.log;
+access_log /var/log/nginx/odoo.access.log;
+error_log /var/log/nginx/odoo.error.log;
 
-  # Redirect websocket requests to odoo gevent port
+# Redirect websocket requests to odoo gevent port
 
-  location /websocket {
-    proxy_pass http://odoochat;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection $connection_upgrade;
-    proxy_set_header X-Forwarded-Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-  }
-
-  # Redirect requests to odoo backend server
-
-  location / {
-    # Add Headers for odoo proxy mode
-    proxy_set_header X-Forwarded-Host $host;
-    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    proxy_set_header X-Forwarded-Proto $scheme;
-    proxy_set_header X-Real-IP $remote_addr;
-    proxy_redirect off;
-    proxy_pass http://odoo;
-  }
-
-  # common gzip
-
-  gzip_types text/css text/scss text/plain text/xml application/xml application/json application/javascript;
-  gzip on;
+location /websocket {
+proxy_pass http://odoochat;
+proxy_set_header Upgrade $http_upgrade;
+proxy_set_header Connection $connection_upgrade;
+proxy_set_header X-Forwarded-Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Real-IP $remote_addr;
 }
+
+# Redirect requests to odoo backend server
+
+location / { # Add Headers for odoo proxy mode
+proxy_set_header X-Forwarded-Host $host;
+proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+proxy_set_header X-Forwarded-Proto $scheme;
+proxy_set_header X-Real-IP $remote_addr;
+proxy_redirect off;
+proxy_pass http://odoo;
+}
+
+# common gzip
+
+gzip_types text/css text/scss text/plain text/xml application/xml application/json application/javascript;
+gzip on;
+}
+
 ```
 
 -
 
-## CapRover deploy by github CICD 
+## CapRover deploy by github CICD
 
 - 專案需要寫一份 dockerfile
 
-- github repository 需四個 secret  (setting > security > secrets and variables > actions > 右上 New repository secret )
+- github repository 需四個 secret (setting > security > secrets and variables > actions > 右上 New repository secret )
 
   - APP_NAME (caprover 的 app name)
 
-  - *APP_TOKEN* (caprover 的 app TOKEN)
+  - _APP_TOKEN_ (caprover 的 app TOKEN)
 
-  - CAPROVER_SERVER  in the format of  [https://captain.apps.your-domain.com](https://captain.apps.your-domain.com/)
+  - CAPROVER_SERVER in the format of [https://captain.apps.your-domain.com](https://captain.apps.your-domain.com/)
 
   - GH_TOKEN : Github personal token with **write permission for packages**
 
-    這樣我們才能在  Login to Container Registry 後有權限可以寫入自已的 image 到 ghcr
+    這樣我們才能在 Login to Container Registry 後有權限可以寫入自已的 image 到 ghcr
 
 - CapRover 的 server 上需要加 ghcr 的權限，才能讓 app deploy 的時候有權限抓 ghcr 上的 image
 
@@ -766,49 +740,48 @@ server {
 
     如果只有一個 server , 可以用 DISABLE ，有串接多個 server 需要仔細評估
 
-  
-
 .github/workflows/deploy.yml 如下
 
-```
+```yaml
 name: Build and Deploy Docker Image
 
 on:
-  push:
-    branches: ['master']
+push:
+branches: ['master']
 
-  pull_request:
-    branches: ['master']
+pull_request:
+branches: ['master']
 
-  # 允許你從 Action 頁簽上手動執行 workflow
-  workflow_dispatch:
+# 允許你從 Action 頁簽上手動執行 workflow
+
+workflow_dispatch:
 
 jobs:
-  build_and_deploy:
-    runs-on: ubuntu-latest
+build_and_deploy:
+runs-on: ubuntu-latest
 
     steps:
     	 # Check out repository
       - name: Check out repository
         uses: actions/checkout@v2
-        
-		# Set up Docker Buildx
+
+    	# Set up Docker Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-		
-		# Login to Container Registry
+
+    	# Login to Container Registry
       - name: Login to Container Registry
         uses: docker/login-action@v2
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GH_TOKEN }}
-		
-		# Preset Image Name
+
+    	# Preset Image Name
       - name: Preset Image Name
         run: echo "IMAGE_URL=$(echo ghcr.io/${{ github.repository_owner }}/${{ github.event.repository.name }}:$(echo ${{ github.sha }} | cut -c1-7) | tr '[:upper:]' '[:lower:]')" >> $GITHUB_ENV
-		
-		# Build and push Docker Image
+
+    	# Build and push Docker Image
       - name: Build and push Docker Image
         uses: docker/build-push-action@v4
         with:
@@ -816,8 +789,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ env.IMAGE_URL }}
-		
-		# Deploy Image to CapRover
+
+    	# Deploy Image to CapRover
       - name: Deploy Image to CapRrover
         uses: caprover/deploy-from-github@v1.1.2
         with:
@@ -827,4 +800,3 @@ jobs:
           image: ${{ env.IMAGE_URL }}
 
 ```
-

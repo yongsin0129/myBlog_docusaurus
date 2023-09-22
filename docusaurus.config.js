@@ -147,7 +147,7 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
-        additionalLanguages: ['powershell', 'docker'],
+        additionalLanguages: ['powershell', 'docker', 'apacheconf', 'yaml', 'editorconfig'],
       },
       colorMode: {
         defaultMode: 'dark',
