@@ -1,0 +1,159 @@
+---
+sidebar_label: install-odoo17-ubuntu22
+sidebar_position: 6
+---
+
+## Step 0 前言
+
+[Install — Odoo 17.0 documentation](https://www.odoo.com/documentation/17.0/administration/install.html)
+
+注意 odoo17 建議的環境為 Ubuntu22.04 and python3.10 以上
+
+## step 1 建立一個新的開發環境
+
+使用 WSL 先建一個 ubuntu22.04 的 env
+
+```bash
+# 顯示可使用 'wsl.exe --install' 安裝的可用發佈的清單
+wsl -l -o
+
+# 安裝 ubuntu
+wsl --install ubuntu-22.04
+# if stuck at 0.0% try below command
+wsl.exe --install -d Ubuntu-22.04 --web-download
+
+# 使用 ubuntu22.04 建立一個新的開發環境
+wsl --export Ubuntu-22.04 Ubuntu22.tar
+wsl --import odoo17dev .\odoo17dev Ubuntu22.tar --version 2
+```
+
+22.04 裡面內建 python3.10 可以省很多問題
+
+20.04 內建是 python3.8 常常刪不乾淨，apt update 後，又被裝回來
+
+## step 2 install wkhtmltopdf
+
+**Ubuntu** **\*22.04\***:
+
+```bash
+sudo apt update && sudo apt install wget
+
+wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-2/wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+
+sudo apt install -f ./wkhtmltox_0.12.6.1-2.jammy_amd64.deb
+
+# 中文pdf
+sudo apt install ttf-wqy-zenhei ttf-wqy-microhei
+```
+
+## step 3 download odoo project
+
+```bash
+git clone https://github.com/odoo/odoo.git -b master --single-branch  --depth=1
+
+git clone https://github.com/odoo/odoo.git -b 17.0 --single-branch  --depth=1
+```
+
+## step 4 install prerequisites
+
+**簡單版**
+
+```bash
+sudo apt update
+sudo apt install python3-pip libldap2-dev libpq-dev libsasl2-dev
+
+cd /CommunityPath
+pip install -r requirements.txt
+```
+
+**複雜版**
+
+**筆記 : ** 與 odoo16 不同的地方是 apt install 多一個 python3-cffi
+
+```bash
+sudo apt update
+sudo apt install git python3-pip build-essential wget python3-dev python3-venv \
+    python3-wheel libfreetype6-dev libxml2-dev libzip-dev libldap2-dev libsasl2-dev \
+    python3-setuptools node-less libjpeg-dev zlib1g-dev libpq-dev \
+    libxslt1-dev libldap2-dev libtiff5-dev libjpeg8-dev libopenjp2-7-dev \
+    liblcms2-dev libwebp-dev libharfbuzz-dev libfribidi-dev libxcb1-dev python3-cffi
+
+cd /CommunityPath
+pip install -r requirements.txt
+```
+
+## step 5 check odoo.conf
+
+**path : ** odoo-17.0/config/odoo.conf
+
+```apacheconf
+[options]
+db_host = localhost
+db_user = odoo
+db_password = odoo
+db_db = postgres
+addons_path = addons, odoo/addons, ../addons
+admin_passwd = admin
+
+```
+
+## step 6 start odoo server
+
+### using vscode debugger launch
+
+**path : ** .vscode/launch.json
+
+```json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "odoo17-dev-env",
+      "type": "python",
+      "request": "launch",
+      // "stopOnEntry": true,
+      "program": "${workspaceFolder}/odoo-17.0/odoo-bin", // odoo app 執行點
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": [
+        "-c",
+        "${workspaceFolder}/odoo-17.0/config/odoo.conf",
+        "--addons-path= ${workspaceFolder}/odoo-17.0/addons, ${workspaceFolder}/odoo-17.0/odoo/addons ,${workspaceFolder}/odoo-17.0/addons-3rd, ${workspaceFolder}/addons-archive ,${workspaceFolder}/addons",
+        // "--database=owl2-learning", // 底下為想要 install , update module 的資料庫 , 不寫的話，-u 、 -i 無法生效
+        // "--init=owl2-learning",
+        // "--update=awesome_tshirt",
+        "--dev=xml"
+        // "--log-level=debug",
+        // "--test-enable",
+        // "--test-tags=standard,nice"
+      ]
+    },
+    {
+      "name": "xmlrpc-demo",
+      "type": "python",
+      "request": "launch",
+      // "stopOnEntry": true,
+      "program": "${workspaceFolder}/addons/twturbiks_xmlrpc/demo.py", // odoo app 執行點
+      "console": "integratedTerminal",
+      "justMyCode": true,
+      "args": []
+    }
+  ]
+}
+```
+
+### using cli
+
+Reference : [odoo CLI](https://www.odoo.com/documentation/13.0/developer/cli.html)
+
+```bash
+#完整版指令
+python3 odoo-bin -w odoo -r odoo -c ./config/odoo.conf
+
+
+#簡化版指令
+python3 odoo-bin -c config/odoo.conf
+```
