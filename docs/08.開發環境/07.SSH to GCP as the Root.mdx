@@ -1,0 +1,39 @@
+---
+SSH to GCP as the Root
+sidebar_position: 7
+---
+
+## Step 0 前言
+
+先準備好一個 VM , 並透過 browser SSH 連線 VM
+
+## Step 1 確認 root ssh authorized_keys
+
+```
+sudo nano /root/.ssh/authorized_keys
+```
+
+## Step 2 新增 root ssh authorized_keys
+
+將 pub key 貼上 , ctrl + S 存檔 , ctrl + X 離開
+
+再用 nano 指令確認 key 已經寫入 authorized_keys
+
+完成以上步驟後 , 即可用 root 帳號登入
+
+## 補充 Allow for root login on SSH connections. Open /etc/ssh/sshd_config for editing:
+
+```
+sudo nano /etc/ssh/sshd_config
+```
+
+Uncomment the line starting with PermitRootLogin prohibit-password and add another line right below it as shown:
+
+```
+PermitRootLogin prohibit-password
+PermitRootLogin yes
+```
+
+## Reference
+
+https://www.suyogjadhav.com/misc/2019/09/07/SSH-to-GCP-as-root-from-Local-Machine/
