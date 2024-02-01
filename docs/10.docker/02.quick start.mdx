@@ -1,16 +1,76 @@
 ---
-sidebar_label: quick start
+sidebar_label: quick start and Install
 sidebar_position: 2
 ---
 
 ## step 1 using dockerfile to build Image
+
 `docker build . -t <image name>`
 
 . : 目前的工作資料夾  
 -t : tag 給這個 image 一個 tag
 
 ## step2 run image
+
 `docker run -p 49160:8080 -d <image name or Id>`
 
 -p : 將 本地的 port 對應到 container 的 port  
 -d : detach mode , 將會在後台運行，而非前台 ( default : attach mode )
+
+## Install docker in ubuntu20.04
+
+[How To Install Docker on Ubuntu 20.04](https://phoenixnap.com/kb/install-docker-on-ubuntu-20-04)
+
+Step 1: Update the Package Repository
+
+```
+sudo apt update
+```
+
+Step 2: Install Prerequisite Packages
+
+```
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+```
+
+Step 3: Add GPG Key
+
+```
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+Step 4: Add Docker Repository
+
+```
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+```
+
+Step 5: Specify Installation Source
+
+```
+apt-cache policy docker-ce
+```
+
+Step 6: Install Docker
+
+```
+sudo apt install docker-ce -y
+```
+
+Step 7: Check Docker Status
+
+```
+sudo systemctl status docker
+```
+
+all in one
+
+```shell
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common -y
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+apt-cache policy docker-ce
+sudo apt install docker-ce -y
+sudo systemctl status docker
+```
